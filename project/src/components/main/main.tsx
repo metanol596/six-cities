@@ -1,17 +1,33 @@
 import OfferCard from '../offer-card/offer-card';
 
-type City = {
-  id: number;
-  label: string;
-  isActive: boolean;
+type Offer = {
+  id?: number;
+  price: number;
+  isPremium: boolean;
+  isFavorite: boolean;
+  imgPath: string;
+  title: string;
+  roomType: string;
 }
 
 type MainPageProps = {
   offersCount: number;
-  cities: City[];
+  offers: Offer[];
 }
 
-function Main({offersCount, cities}: MainPageProps): JSX.Element {
+function Main({offersCount, offers}: MainPageProps): JSX.Element {
+  const elements = offers.map((item) => {
+    const {id, ...itemsProps} = item;
+
+    return (
+      <article key={id} className="cities__place-card place-card">
+        <OfferCard
+          {...itemsProps}
+        />
+      </article>
+    );
+  });
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -72,11 +88,7 @@ function Main({offersCount, cities}: MainPageProps): JSX.Element {
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              <OfferCard />
-              <OfferCard />
-              <OfferCard />
-              <OfferCard />
-              <OfferCard />
+              {elements}
             </div>
           </section>
           <div className="cities__right-section">

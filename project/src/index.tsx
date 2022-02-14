@@ -4,46 +4,60 @@ import App from './components/app/app';
 
 const Setting = {
   OFFERS_COUNT: 5,
-  cities: [
+  offers: [
     {
       id: 1,
-      label: 'Paris',
-      isActive: false,
+      price: 120,
+      isPremium: true,
+      isFavorite: false,
+      imgPath: 'img/apartment-01.jpg',
+      title: 'Beautiful &amp; luxurious apartment at great location',
+      roomType: 'Apartment',
     },
     {
       id: 2,
-      label: 'Cologne',
-      isActive: false,
+      price: 120,
+      isPremium: false,
+      isFavorite: true,
+      imgPath: 'img/room.jpg',
+      title: 'Wood and stone place',
+      roomType: 'Private room',
     },
     {
       id: 3,
-      label: 'Brussels',
-      isActive: false,
+      price: 120,
+      isPremium: false,
+      isFavorite: false,
+      imgPath: 'img/apartment-02.jpg',
+      title: 'Canal View Prinsengracht',
+      roomType: 'Apartment',
     },
     {
       id: 4,
-      label: 'Amsterdam',
-      isActive: true,
+      price: 120,
+      isPremium: true,
+      isFavorite: false,
+      imgPath: 'img/apartment-03.jpg',
+      title: 'Nice, cozy, warm big bed apartment',
+      roomType: 'Apartment',
     },
     {
       id: 5,
-      label: 'Hamburg',
-      isActive: false,
-    },
-    {
-      id: 6,
-      label: 'Dusseldorf',
-      isActive: false,
+      price: 120,
+      isPremium: false,
+      isFavorite: true,
+      imgPath: 'img/room.jpg',
+      title: 'Wood and stone place',
+      roomType: 'Private room',
     },
   ],
-
 };
 
 ReactDOM.render(
   <React.StrictMode>
     <App
       offersCount={Setting.OFFERS_COUNT}
-      cities={Setting.cities}
+      offers={Setting.offers}
     />
   </React.StrictMode>,
   document.getElementById('root'));

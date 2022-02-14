@@ -1,24 +1,28 @@
 import Main from '../main/main';
 import Header from '../header/heaer';
 
-type City = {
+type Offer = {
   id: number;
-  label: string;
-  isActive: boolean;
+  price: number;
+  isPremium: boolean;
+  isFavorite: boolean;
+  imgPath: string;
+  title: string;
+  roomType: string;
 }
 
 type AppPageProps = {
   offersCount: number;
-  cities: City[];
+  offers: Offer[];
 }
 
-function App({offersCount, cities}: AppPageProps): JSX.Element {
+function App({offersCount, offers}: AppPageProps): JSX.Element {
   return (
     <>
       <Header />
       <Main
         offersCount={offersCount}
-        cities={cities}
+        offers={offers}
       />
     </>
   );
