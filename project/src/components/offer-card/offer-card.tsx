@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-type Offer = {
+type PropsType = {
   id?: number;
   price: number;
   isPremium: boolean;
@@ -10,7 +10,7 @@ type Offer = {
   roomType: string;
 }
 
-function OfferCard({id, price, isPremium, isFavorite, imgPath, title, roomType}: Offer): JSX.Element {
+function OfferCard({id, price, isPremium, isFavorite, imgPath, title, roomType}: PropsType): JSX.Element {
   const favoriteClassName = 'place-card__bookmark-button button';
   const offerLink = `offer/${id}`;
 

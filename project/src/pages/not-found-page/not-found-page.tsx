@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute } from '../../const';
 
-import './not-found-screen.css';
+import './not-found-page.css';
 
-function NotFoundScreen(): JSX.Element {
+function NotFoundPage(): JSX.Element {
   return (
     <section className="not-found-error">
       <p className="not-found-error__text">404. Page not found</p>
@@ -13,4 +13,4 @@ function NotFoundScreen(): JSX.Element {
   );
 }
 
-export default NotFoundScreen;
+export default NotFoundPage;
