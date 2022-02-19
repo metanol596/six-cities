@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom';
+
 type Offer = {
+  id?: number;
   price: number;
   isPremium: boolean;
   isFavorite: boolean;
@@ -7,8 +10,9 @@ type Offer = {
   roomType: string;
 }
 
-function OfferCard({price, isPremium, isFavorite, imgPath, title, roomType}: Offer): JSX.Element {
+function OfferCard({id, price, isPremium, isFavorite, imgPath, title, roomType}: Offer): JSX.Element {
   const favoriteClassName = 'place-card__bookmark-button button';
+  const offerLink = `offer/${id}`;
 
   return (
     <>
@@ -16,9 +20,9 @@ function OfferCard({price, isPremium, isFavorite, imgPath, title, roomType}: Off
         <span>Premium</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="/#">
+        <Link to={offerLink} title={offerLink}>
           <img className="place-card__image" src={imgPath} width="260" height="200" alt="Place" />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -40,7 +44,7 @@ function OfferCard({price, isPremium, isFavorite, imgPath, title, roomType}: Off
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/#">{title}</a>
+          <Link to={offerLink} title={offerLink}>{title}</Link>
         </h2>
         <p className="place-card__type">{roomType}</p>
       </div>
