@@ -1,0 +1,19 @@
+.not-found-error {
+  padding: 20px 20px;
+  margin: 0 auto;
+  width: 500px;
+}
+
+.not-found-error__text {
+  text-align: center;
+}
+
+.not-found-error__link {
+  color: #ffffff;
+  background-color: #4481c3;
+  text-align: center;
+
+  padding: 10px 15px;
+  width: 100%;
+  display: inline-block;
+}

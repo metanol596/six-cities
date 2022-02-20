@@ -1,4 +1,4 @@
-import OfferCard from '../offer-card/offer-card';
+import OfferCard from '../../components/offer-card/offer-card';
 
 type Offer = {
   id?: number;
@@ -22,6 +22,7 @@ function Main({offersCount, offers}: MainPageProps): JSX.Element {
     return (
       <article key={id} className="cities__place-card place-card">
         <OfferCard
+          id={id}
           {...itemsProps}
         />
       </article>
@@ -29,7 +30,7 @@ function Main({offersCount, offers}: MainPageProps): JSX.Element {
   });
 
   return (
-    <main className="page__main page__main--index">
+    <>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
@@ -96,7 +97,7 @@ function Main({offersCount, offers}: MainPageProps): JSX.Element {
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 }
 
