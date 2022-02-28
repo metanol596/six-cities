@@ -1,30 +1,50 @@
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
+import cn from 'classnames';
+
+import { AppRoute } from '../../const';
+
+import { Offer } from '../../types/offer';
 
 type PropsType = {
-  id?: number;
-  price: number;
-  isPremium: boolean;
-  isFavorite: boolean;
-  imgPath: string;
-  title: string;
-  roomType: string;
+  offer: Offer;
+  onOfferCardMouseEnter: (id: number) => void;
+  activeCard: number;
+  page: string;
 }
 
-function OfferCard({id, price, isPremium, isFavorite, imgPath, title, roomType}: PropsType): JSX.Element {
+function OfferCard({offer, page, onOfferCardMouseEnter, activeCard}: PropsType): JSX.Element {
+  const {id, price, isPremium, isFavorite, imgPath, title, roomType} = offer;
   const favoriteClassName = 'place-card__bookmark-button button';
-  const offerLink = `offer/${id}`;
+
+  const handleMouseEnter = () => {
+    onOfferCardMouseEnter(id);
+  };
 
   return (
-    <>
+    <article key={id} className={cn('place-card',
+      {
+        'cities__place-card': page === 'main',
+        'favorites__card': page === 'favorites',
+      })} onMouseEnter={handleMouseEnter}
+    >
       <div className="place-card__mark" style={{display: `${isPremium ? 'block' : 'none'}`}}>
         <span>Premium</span>
       </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={offerLink} title={offerLink}>
+      <div className={cn('place-card__image-wrapper',
+        {
+          'cities__image-wrapper': page === 'main',
+          'favorites__image-wrapper': page === 'favorites',
+        })}
+      >
+        <Link to={generatePath(AppRoute.Offer, {id: `${id}`})}>
           <img className="place-card__image" src={imgPath} width="260" height="200" alt="Place" />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className={cn('place-card__info',
+        {
+          'favorites__card-info': page === 'favorites',
+        })}
+      >
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -44,11 +64,11 @@ function OfferCard({id, price, isPremium, isFavorite, imgPath, title, roomType}:
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={offerLink} title={offerLink}>{title}</Link>
+          <Link to={generatePath(AppRoute.Offer, {id: `${id}`})}>{title}</Link>
         </h2>
         <p className="place-card__type">{roomType}</p>
       </div>
-    </>
+    </article>
   );
 }
 

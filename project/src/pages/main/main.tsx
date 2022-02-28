@@ -1,36 +1,18 @@
-import OfferCard from '../../components/offer-card/offer-card';
+import Header from '../../components/header/heaer';
+import OffersList from '../../components/offers-list/offers-list';
 
-type Offer = {
-  id?: number;
-  price: number;
-  isPremium: boolean;
-  isFavorite: boolean;
-  imgPath: string;
-  title: string;
-  roomType: string;
-}
+import { Offer } from '../../types/offer';
 
 type MainPageProps = {
   offersCount: number;
   offers: Offer[];
+  page: string;
 }
 
-function Main({offersCount, offers}: MainPageProps): JSX.Element {
-  const elements = offers.map((item) => {
-    const {id, ...itemsProps} = item;
-
-    return (
-      <article key={id} className="cities__place-card place-card">
-        <OfferCard
-          id={id}
-          {...itemsProps}
-        />
-      </article>
-    );
-  });
-
+function Main({offersCount, offers, page = 'main'}: MainPageProps): JSX.Element {
   return (
     <>
+      <Header />
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
@@ -88,9 +70,7 @@ function Main({offersCount, offers}: MainPageProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <div className="cities__places-list places__list tabs__content">
-              {elements}
-            </div>
+            <OffersList offers={offers} page={page} />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>
