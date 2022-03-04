@@ -1,4 +1,4 @@
-import Header from '../../components/header/heaer';
+import Header from '../../components/header/header';
 
 function Login():JSX.Element {
   return (

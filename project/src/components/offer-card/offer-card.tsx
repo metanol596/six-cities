@@ -1,61 +1,51 @@
 import { Link, generatePath } from 'react-router-dom';
 import cn from 'classnames';
 
+import Bookmark from '../bookmark/bookmark';
+import Badge from '../badge/badge';
+
 import { AppRoute } from '../../const';
 
 import { Offer } from '../../types/offer';
 
 type PropsType = {
   offer: Offer;
+  className: string;
   onOfferCardMouseEnter: (id: number) => void;
-  activeCard: number;
-  page: string;
+  isSmall?: boolean;
 }
 
-function OfferCard({offer, page, onOfferCardMouseEnter, activeCard}: PropsType): JSX.Element {
+function OfferCard({offer, className, onOfferCardMouseEnter, isSmall}: PropsType): JSX.Element {
   const {id, price, isPremium, isFavorite, imgPath, title, roomType} = offer;
-  const favoriteClassName = 'place-card__bookmark-button button';
 
-  const handleMouseEnter = () => {
-    onOfferCardMouseEnter(id);
-  };
+  const imgWidth = !isSmall ? '260' : '150';
+  const imgHeight = !isSmall ? '200' : '110';
 
   return (
     <article key={id} className={cn('place-card',
       {
-        'cities__place-card': page === 'main',
-        'favorites__card': page === 'favorites',
-      })} onMouseEnter={handleMouseEnter}
+        'cities__place-card': className === 'cities',
+        'favorites__card': className === 'favorites',
+      })} onMouseEnter={() => {onOfferCardMouseEnter(id);}}
     >
-      <div className="place-card__mark" style={{display: `${isPremium ? 'block' : 'none'}`}}>
-        <span>Premium</span>
-      </div>
+      {isPremium && <Badge text='Premium' className='place-card' />}
       <div className={cn('place-card__image-wrapper',
         {
-          'cities__image-wrapper': page === 'main',
-          'favorites__image-wrapper': page === 'favorites',
+          'cities__image-wrapper': className === 'cities',
+          'favorites__image-wrapper': className === 'favorites',
         })}
       >
         <Link to={generatePath(AppRoute.Offer, {id: `${id}`})}>
-          <img className="place-card__image" src={imgPath} width="260" height="200" alt="Place" />
+          <img className="place-card__image" src={imgPath} width={imgWidth} height={imgHeight} alt="Place" />
         </Link>
       </div>
-      <div className={cn('place-card__info',
-        {
-          'favorites__card-info': page === 'favorites',
-        })}
-      >
+      <div className={cn('place-card__info', {'favorites__card-info': className === 'favorites'})}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={isFavorite ? `${favoriteClassName} place-card__bookmark-button--active` : `${favoriteClassName}`} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-          </button>
+          <Bookmark isFavorite={isFavorite} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
