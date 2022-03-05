@@ -7,16 +7,25 @@ import { Offer } from '../../types/offer';
 
 type PropsType = {
   offers: Offer[];
+  favoriteCity?: string;
   className: string;
   isSmall?: boolean;
 }
 
-function OffersList({offers, className, isSmall}: PropsType):JSX.Element {
+function OffersList({offers, favoriteCity, className, isSmall}: PropsType):JSX.Element {
   const [, setActiveOfferCard] = useState(0);
 
   const handleOfferCardMouseEnter = (id: number) => {
     setActiveOfferCard(id);
   };
+
+  const handleOfferCardMouseLeave = () => {
+    setActiveOfferCard(0);
+  };
+
+  if (isSmall) {
+    offers = offers.filter((item) => item.city === favoriteCity);
+  }
 
   return (
     <div className={cn({
@@ -29,6 +38,7 @@ function OffersList({offers, className, isSmall}: PropsType):JSX.Element {
           <OfferCard key={offer.id}
             offer={offer}
             onOfferCardMouseEnter={handleOfferCardMouseEnter}
+            onOfferCardMouseLeave={handleOfferCardMouseLeave}
             className={className}
             isSmall={isSmall}
           />

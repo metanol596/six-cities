@@ -25,7 +25,7 @@ export const offers: Offer[] = [
     id: 3,
     price: 120,
     isPremium: false,
-    isFavorite: false,
+    isFavorite: true,
     imgPath: 'img/apartment-02.jpg',
     title: 'Canal View Prinsengracht',
     roomType: 'Apartment',

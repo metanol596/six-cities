@@ -12,21 +12,26 @@ type PropsType = {
   offer: Offer;
   className: string;
   onOfferCardMouseEnter: (id: number) => void;
+  onOfferCardMouseLeave: () => void;
   isSmall?: boolean;
 }
 
-function OfferCard({offer, className, onOfferCardMouseEnter, isSmall}: PropsType): JSX.Element {
+function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLeave, isSmall}: PropsType): JSX.Element {
   const {id, price, isPremium, isFavorite, imgPath, title, roomType} = offer;
 
-  const imgWidth = !isSmall ? '260' : '150';
-  const imgHeight = !isSmall ? '200' : '110';
+  const imgWidth = isSmall ? '150' : '260';
+  const imgHeight = isSmall ? '110' : '200';
 
   return (
-    <article key={id} className={cn('place-card',
-      {
-        'cities__place-card': className === 'cities',
-        'favorites__card': className === 'favorites',
-      })} onMouseEnter={() => {onOfferCardMouseEnter(id);}}
+    <article
+      key={id}
+      className={cn('place-card',
+        {
+          'cities__place-card': className === 'cities',
+          'favorites__card': className === 'favorites',
+        })}
+      onMouseEnter={() => {onOfferCardMouseEnter(id);}}
+      onMouseLeave={() => {onOfferCardMouseLeave();}}
     >
       {isPremium && <Badge text='Premium' className='place-card' />}
       <div className={cn('place-card__image-wrapper',
@@ -36,10 +41,18 @@ function OfferCard({offer, className, onOfferCardMouseEnter, isSmall}: PropsType
         })}
       >
         <Link to={generatePath(AppRoute.Offer, {id: `${id}`})}>
-          <img className="place-card__image" src={imgPath} width={imgWidth} height={imgHeight} alt="Place" />
+          <img
+            className="place-card__image"
+            src={imgPath}
+            width={imgWidth}
+            height={imgHeight}
+            alt="Place"
+          />
         </Link>
       </div>
-      <div className={cn('place-card__info', {'favorites__card-info': className === 'favorites'})}>
+      <div className={cn('place-card__info',
+        {'favorites__card-info': className === 'favorites'})}
+      >
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>

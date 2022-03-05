@@ -1,51 +1,25 @@
-type FieldType = {
-  target: {
-    name: string;
-    value: string;
-  }
-}
+import {ChangeEvent, Fragment} from 'react';
+import { rates } from '../../const';
 
 type PropsType = {
-  onRatingChange: (evt: FieldType) => void;
+  onRatingChange: (evt: ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Rating({onRatingChange}: PropsType) {
   return (
     <div className="reviews__rating-form form__rating">
-      <input onChange={onRatingChange} className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
-      <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-        <svg className="form__star-image" width="37" height="33">
-          <use xlinkHref="#icon-star"></use>
-        </svg>
-      </label>
-
-      <input onChange={onRatingChange} className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" />
-      <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-        <svg className="form__star-image" width="37" height="33">
-          <use xlinkHref="#icon-star"></use>
-        </svg>
-      </label>
-
-      <input onChange={onRatingChange} className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" />
-      <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-        <svg className="form__star-image" width="37" height="33">
-          <use xlinkHref="#icon-star"></use>
-        </svg>
-      </label>
-
-      <input onChange={onRatingChange} className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" />
-      <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-        <svg className="form__star-image" width="37" height="33">
-          <use xlinkHref="#icon-star"></use>
-        </svg>
-      </label>
-
-      <input onChange={onRatingChange} className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" />
-      <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-        <svg className="form__star-image" width="37" height="33">
-          <use xlinkHref="#icon-star"></use>
-        </svg>
-      </label>
+      {
+        Object.entries(rates).map(([rate, title]) => (
+          <Fragment key={rate}>
+            <input onChange={onRatingChange} className="form__rating-input visually-hidden" name="rating" value={rate} id={`${rate}-stars`} type="radio" />
+            <label htmlFor={`${rate}-stars`} className="reviews__rating-label form__rating-label" title={title}>
+              <svg className="form__star-image" width="37" height="33">
+                <use xlinkHref="#icon-star"></use>
+              </svg>
+            </label>
+          </Fragment>
+        ))
+      }
     </div>
   );
 }
