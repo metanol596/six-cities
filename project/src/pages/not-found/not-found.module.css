@@ -1,14 +1,14 @@
-.not-found-error {
+.notFound {
   padding: 20px 20px;
   margin: 0 auto;
   width: 500px;
 }
 
-.not-found-error__text {
+.notFound__text {
   text-align: center;
 }
 
-.not-found-error__link {
+.notFound__link {
   color: #ffffff;
   background-color: #4481c3;
   text-align: center;
