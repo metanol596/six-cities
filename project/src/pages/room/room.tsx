@@ -2,7 +2,14 @@ import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
 
-function OfferPage():JSX.Element {
+import { Offer, City } from '../../types/offer';
+
+type PropsType = {
+  offers: Offer[];
+  city: City;
+}
+
+function Room({offers, city}: PropsType):JSX.Element {
   return (
     <div className="page">
       <Header />
@@ -156,7 +163,7 @@ function OfferPage():JSX.Element {
               </section>
             </div>
           </div>
-          <Map className="property__map" />
+          <Map offers={offers} city={city} className="property__map" />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -268,4 +275,4 @@ function OfferPage():JSX.Element {
   );
 }
 
-export default OfferPage;
+export default Room;

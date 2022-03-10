@@ -11,16 +11,20 @@ import { Offer } from '../../types/offer';
 type PropsType = {
   offer: Offer;
   className: string;
-  onOfferCardMouseEnter: (id: number) => void;
-  onOfferCardMouseLeave: () => void;
+  onOfferCardMouseEnter?: (id: number) => void;
+  onOfferCardMouseLeave?: () => void;
   isSmall?: boolean;
 }
 
+const MAX_RATE = 5;
+
 function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLeave, isSmall}: PropsType): JSX.Element {
-  const {id, price, isPremium, isFavorite, imgPath, title, roomType} = offer;
+  const {previewImage, title, isFavorite, isPremium, rating, type, price, id} = offer;
 
   const imgWidth = isSmall ? '150' : '260';
   const imgHeight = isSmall ? '110' : '200';
+
+  const PercantageRate = rating * 100 / MAX_RATE;
 
   return (
     <article
@@ -30,8 +34,8 @@ function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLea
           'cities__place-card': className === 'cities',
           'favorites__card': className === 'favorites',
         })}
-      onMouseEnter={() => {onOfferCardMouseEnter(id);}}
-      onMouseLeave={() => {onOfferCardMouseLeave();}}
+      onMouseEnter={() => {onOfferCardMouseEnter?.(id);}}
+      onMouseLeave={() => {onOfferCardMouseLeave?.();}}
     >
       {isPremium && <Badge text='Premium' className='place-card' />}
       <div className={cn('place-card__image-wrapper',
@@ -43,7 +47,7 @@ function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLea
         <Link to={generatePath(AppRoute.Offer, {id: `${id}`})}>
           <img
             className="place-card__image"
-            src={imgPath}
+            src={previewImage}
             width={imgWidth}
             height={imgHeight}
             alt="Place"
@@ -62,14 +66,14 @@ function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLea
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: `${PercantageRate}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to={generatePath(AppRoute.Offer, {id: `${id}`})}>{title}</Link>
         </h2>
-        <p className="place-card__type">{roomType}</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );
