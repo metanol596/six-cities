@@ -1,38 +1,25 @@
-import { useState } from 'react';
-import cn from 'classnames';
-
 import OfferCard from '../../components/offer-card/offer-card';
 
 import { Offer } from '../../types/offer';
 
 type PropsType = {
   offers: Offer[];
-  favoriteCity?: string;
   className: string;
   isSmall?: boolean;
+  onListCardHover: (id: number) => void;
 }
 
-function OffersList({offers, favoriteCity, className, isSmall}: PropsType):JSX.Element {
-  const [, setActiveOfferCard] = useState(0);
-
+function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JSX.Element {
   const handleOfferCardMouseEnter = (id: number) => {
-    setActiveOfferCard(id);
+    onListCardHover(id);
   };
 
   const handleOfferCardMouseLeave = () => {
-    setActiveOfferCard(0);
+    onListCardHover(0);
   };
 
-  if (isSmall) {
-    offers = offers.filter((item) => item.city === favoriteCity);
-  }
-
   return (
-    <div className={cn({
-      'cities__places-list places__list tabs__content': className === 'cities',
-      'favorites__places': className === 'favorites',
-    })}
-    >
+    <div className='cities__places-list places__list tabs__content'>
       {
         offers.map((offer) => (
           <OfferCard key={offer.id}
