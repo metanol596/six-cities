@@ -6,8 +6,8 @@ import useMap from '../../hooks/useMap';
 
 import { City, Offer } from '../../types/offer';
 
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
-
+import pin from './pin.svg';
+import pinActive from './pin-active.svg';
 
 type PropsType = {
   className: string;
@@ -17,20 +17,31 @@ type PropsType = {
 }
 
 const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
+  iconUrl: pin,
+  iconSize: [27, 39],
   iconAnchor: [20, 40],
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
+  iconUrl: pinActive,
+  iconSize: [27, 39],
   iconAnchor: [20, 40],
 });
+
+let mapHeight: string;
 
 function Map({className, offers, city, selectedPoint}: PropsType): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+
+  switch (className) {
+    case 'property__map':
+      mapHeight = '579px';
+      break;
+    case 'cities__map':
+      mapHeight = '100%';
+      break;
+  }
 
   useEffect(() => {
     if (map) {
@@ -52,7 +63,7 @@ function Map({className, offers, city, selectedPoint}: PropsType): JSX.Element {
   return (
     <section
       className={`${className} map`}
-      style={{height: '801px'}}
+      style={{height: mapHeight}}
       ref={mapRef}
     />
   );

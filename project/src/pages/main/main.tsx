@@ -17,11 +17,10 @@ type MainPageProps = {
 function Main({offersCount, offers, city}: MainPageProps): JSX.Element {
   const [selectedCard, setSelectedCard] = useState<number | undefined>(undefined);
 
-  const onListCardHover = (id: number) => {
-    const currentPoint = offers.find((offer) => offer.id === id);
-
-    setSelectedCard(currentPoint?.id);
+  const onListCardHover = (id: number | undefined) => {
+    setSelectedCard(id);
   };
+
   return (
     <>
       <Header />

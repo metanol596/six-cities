@@ -6,18 +6,13 @@ type PropsType = {
   className: string;
 }
 
-type Accumulator = {
-  [propertyKey: string]: Offer[];
-};
-
-const transformOffers = (offers: Offer[]) => offers.reduce((transformedOffers: Accumulator, offer) => {
-  if (offer.city.name in transformedOffers) {
-    transformedOffers[offer.city.name].push(offer);
-    return transformedOffers;
+const transformOffers = (offers: Offer[]) => offers.reduce<{[key: string]: Offer[]}>((acc: {[p: string]: Offer[]}, offer) => {
+  if (!acc[offer.city.name]) {
+    acc[offer.city.name] = [];
   }
 
-  transformedOffers[offer.city.name] = [offer];
-  return transformedOffers;
+  acc[offer.city.name].push(offer);
+  return acc;
 }, {});
 
 function FavoritesList({offers, className}: PropsType): JSX.Element {

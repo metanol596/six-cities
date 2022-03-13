@@ -28,6 +28,9 @@ export const rates = {
   1: 'terribly',
 };
 
-export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 
-export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+export const getRatePercent = (rating: number) => {
+  const MAX_RATE = 5;
+
+  return rating * 100 / MAX_RATE;
+};

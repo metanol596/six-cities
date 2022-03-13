@@ -1,3 +1,5 @@
+import cn from 'classnames';
+
 import OfferCard from '../../components/offer-card/offer-card';
 
 import { Offer } from '../../types/offer';
@@ -6,7 +8,7 @@ type PropsType = {
   offers: Offer[];
   className: string;
   isSmall?: boolean;
-  onListCardHover: (id: number) => void;
+  onListCardHover: (id: number | undefined) => void;
 }
 
 function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JSX.Element {
@@ -14,12 +16,16 @@ function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JS
     onListCardHover(id);
   };
 
-  const handleOfferCardMouseLeave = () => {
-    onListCardHover(0);
+  const handleOfferCardMouseLeave = (id: number | undefined) => {
+    onListCardHover(id);
   };
 
   return (
-    <div className='cities__places-list places__list tabs__content'>
+    <div className={cn('places__list', {
+      'cities__places-list  tabs__content': className === 'cities',
+      'near-places__list': className === 'near',
+    })}
+    >
       {
         offers.map((offer) => (
           <OfferCard key={offer.id}
