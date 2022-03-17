@@ -9,20 +9,23 @@ import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
 import OffersList from '../../components/offers-list/offers-list';
 
-import {getRatePercent} from '../../const';
+import {getRatePercent} from '../../utils';
 
-import {Offer, City} from '../../types/offer';
+import {Offer} from '../../types/offer';
+import {Comment} from '../../types/comment';
 
 type PropsType = {
   offers: Offer[];
-  city: City;
+  comments: Comment[];
 }
 
-function Room({offers, city}: PropsType):JSX.Element {
+function Room({offers, comments}: PropsType):JSX.Element {
   const {id} = useParams();
   const offerId = Number(id);
   const currentOfferIndex = offers.findIndex((offer) => offer.id === offerId);
   const currentOffer = offers[currentOfferIndex];
+  // eslint-disable-next-line no-console
+  console.log(currentOffer);
 
   const {
     images,
@@ -128,12 +131,12 @@ function Room({offers, city}: PropsType):JSX.Element {
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ReviewsList nearbyOffers={nearbyOffers} />
+                <ReviewsList comments={comments} />
                 <ReviewsForm />
               </section>
             </div>
           </div>
-          <Map offers={nearbyOffers} city={city} className="property__map" selectedPoint={selectedCard} />
+          <Map className="property__map" offers={nearbyOffers} selectedPoint={selectedCard} />
         </section>
         <div className="container">
           <section className="near-places places">

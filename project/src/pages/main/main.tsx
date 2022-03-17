@@ -6,15 +6,16 @@ import Locations from '../../components/locations/locations';
 import Sort from '../../components/sort/sort';
 import Map from '../../components/map/map';
 
-import { City, Offer } from '../../types/offer';
+import { Offer } from '../../types/offer';
+
+import styles from './main.module.css';
 
 type MainPageProps = {
-  offersCount: number;
   offers: Offer[];
-  city: City;
+  currentCity: string;
 }
 
-function Main({offersCount, offers, city}: MainPageProps): JSX.Element {
+function Main({offers, currentCity}: MainPageProps): JSX.Element {
   const [selectedCard, setSelectedCard] = useState<number | undefined>(undefined);
 
   const onListCardHover = (id: number | undefined) => {
@@ -29,10 +30,10 @@ function Main({offersCount, offers, city}: MainPageProps): JSX.Element {
         <Locations />
       </div>
       <div className="cities">
-        <div className="cities__places-container container">
+        <div className={`cities__places-container container ${styles['cities__places-container']}`}>
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+            <b className="places__found">{offers.length} places to stay in {currentCity}</b>
             <Sort />
             <OffersList
               offers={offers}
@@ -42,7 +43,7 @@ function Main({offersCount, offers, city}: MainPageProps): JSX.Element {
             />
           </section>
           <div className="cities__right-section">
-            <Map selectedPoint={selectedCard} className="cities__map" offers={offers} city={city} />
+            <Map selectedPoint={selectedCard} className="cities__map" offers={offers} />
           </div>
         </div>
       </div>

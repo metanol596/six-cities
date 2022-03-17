@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 
 import useMap from '../../hooks/useMap';
 
-import { City, Offer } from '../../types/offer';
+import { Offer } from '../../types/offer';
 
 import pin from './pin.svg';
 import pinActive from './pin-active.svg';
@@ -12,7 +12,6 @@ import pinActive from './pin-active.svg';
 type PropsType = {
   className: string;
   offers: Offer[];
-  city: City;
   selectedPoint?: number | undefined;
 }
 
@@ -28,42 +27,31 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40],
 });
 
-let mapHeight: string;
-
-function Map({className, offers, city, selectedPoint}: PropsType): JSX.Element {
+function Map({className, offers, selectedPoint}: PropsType): JSX.Element {
+  const currentCity = offers[0].city;
+  const {location: {latitude: lat, longitude: lng}, zoom} = currentCity;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
-
-  switch (className) {
-    case 'property__map':
-      mapHeight = '579px';
-      break;
-    case 'cities__map':
-      mapHeight = '100%';
-      break;
-  }
+  const map = useMap(mapRef, currentCity);
 
   useEffect(() => {
     if (map) {
-      offers.forEach((offer) => {
-        const {location} = offer;
-
+      offers.forEach(({id, location: {latitude, longitude}}) => {
         const marker = new Marker({
-          lat: location.latitude,
-          lng: location.longitude,
+          lat: latitude,
+          lng: longitude,
         });
 
         marker.setIcon(
-          selectedPoint !== undefined && offer.id === selectedPoint ? currentCustomIcon : defaultCustomIcon,
+          selectedPoint !== undefined && id === selectedPoint ? currentCustomIcon : defaultCustomIcon,
         ).addTo(map);
       });
+      map.flyTo([lat, lng], zoom);
     }
-  }, [map, offers, selectedPoint]);
+  }, [lat, lng, map, offers, selectedPoint, zoom]);
 
   return (
     <section
       className={`${className} map`}
-      style={{height: mapHeight}}
       ref={mapRef}
     />
   );

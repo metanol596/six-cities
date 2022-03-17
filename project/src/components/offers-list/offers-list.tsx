@@ -22,7 +22,7 @@ function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JS
 
   return (
     <div className={cn('places__list', {
-      'cities__places-list  tabs__content': className === 'cities',
+      'cities__places-list tabs__content': className === 'cities',
       'near-places__list': className === 'near',
     })}
     >
