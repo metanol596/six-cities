@@ -7,6 +7,7 @@ export type Location = {
 export type City = {
   name: string,
   location: Location,
+  zoom?: number,
 }
 
 type Host = {

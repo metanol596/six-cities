@@ -4,7 +4,9 @@ import cn from 'classnames';
 import Bookmark from '../bookmark/bookmark';
 import Badge from '../badge/badge';
 
-import { AppRoute, getRatePercent } from '../../const';
+import { AppRoute } from '../../const';
+
+import { getRatePercent } from '../../utils';
 
 import { Offer } from '../../types/offer';
 

@@ -1,15 +1,22 @@
 import Review from '../review/review';
 
-import {Offer} from '../../types/offer';
+import {Comment} from '../../types/comment';
 
 type PropsType = {
-  nearbyOffers: Offer[];
+  comments: Comment[];
 }
 
-function ReviewsList({nearbyOffers}: PropsType): JSX.Element {
+function ReviewsList({comments}: PropsType): JSX.Element {
   return (
     <ul className="reviews__list">
-      <Review />
+      {
+        comments.map((comment) => (
+          <Review
+            key={comment.id}
+            commentItem={comment}
+          />
+        ))
+      }
     </ul>
   );
 }

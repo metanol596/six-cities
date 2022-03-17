@@ -15,12 +15,15 @@ function Bookmark({isFavorite, className}: PropsType): JSX.Element {
       'property__bookmark-button--active' : isFavorite && className === 'property',
     })} type="button"
     >
-      <svg className={
-        cn({
-          'place-card__bookmark-icon': className === 'place-card',
-          'property__bookmark-icon': className === 'property',
-        })
-      } width={iconWidth} height={iconHeight}
+      <svg
+        className={
+          cn({
+            'place-card__bookmark-icon': className === 'place-card',
+            'property__bookmark-icon': className === 'property',
+          })
+        }
+        width={iconWidth}
+        height={iconHeight}
       >
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
