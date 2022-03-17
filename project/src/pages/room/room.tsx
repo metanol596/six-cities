@@ -24,8 +24,6 @@ function Room({offers, comments}: PropsType):JSX.Element {
   const offerId = Number(id);
   const currentOfferIndex = offers.findIndex((offer) => offer.id === offerId);
   const currentOffer = offers[currentOfferIndex];
-  // eslint-disable-next-line no-console
-  console.log(currentOffer);
 
   const {
     images,

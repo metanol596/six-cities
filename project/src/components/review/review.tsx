@@ -10,6 +10,11 @@ function Review({commentItem}: PropsType):JSX.Element {
   const {id, user, rating, comment, date} = commentItem;
   const {avatarUrl, name} = user;
 
+  const day = new Date(date).getDate();
+  const month = new Date(date).toLocaleDateString('en-US', {month: 'long'});
+  const year = new Date(date).getFullYear();
+  const dateAttributeArgument = `${year}-${new Date(date).getMonth()}-${day}`;
+
   return (
     <li key={id} className="reviews__item">
       <div className="reviews__user user">
@@ -36,7 +41,7 @@ function Review({commentItem}: PropsType):JSX.Element {
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime='2019-04-24'>{date}</time>
+        <time className="reviews__time" dateTime={dateAttributeArgument}>{day} {month} {year}</time>
       </div>
     </li>
   );
