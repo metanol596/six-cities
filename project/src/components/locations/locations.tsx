@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { MouseEvent } from 'react';
 
 import { Cities } from '../../const';
 
@@ -15,18 +15,21 @@ function Locations(): JSX.Element {
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {
-          Object.values(Cities).map((city) => (
+          Cities.map((city) => (
             <li
               key={city}
               className="locations__item"
-              onClick={() => dispatch(cityChange(city))}
             >
-              <Link
-                to=''
+              <a
+                href='/#'
                 className={`locations__item-link tabs__item ${currentCity === city && 'tabs__item--active'}`}
+                onClick={(evt: MouseEvent<HTMLAnchorElement>) => {
+                  evt.preventDefault();
+                  dispatch(cityChange(city));
+                }}
               >
                 <span>{city}</span>
-              </Link>
+              </a>
             </li>
           ))
         }

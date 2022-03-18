@@ -1,13 +1,7 @@
 import Header from '../../components/header/header';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 
-import { Offer } from '../../types/offer';
-
-type PropsType = {
-  offers: Offer[];
-}
-
-function Favorites({offers}: PropsType):JSX.Element {
+function Favorites():JSX.Element {
   return (
     <div className="page">
       <Header />
@@ -15,7 +9,7 @@ function Favorites({offers}: PropsType):JSX.Element {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={offers} className="favorites" />
+            <FavoritesList className="favorites" />
           </section>
         </div>
       </main>

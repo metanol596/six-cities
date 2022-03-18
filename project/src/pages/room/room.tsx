@@ -11,19 +11,22 @@ import OffersList from '../../components/offers-list/offers-list';
 
 import {getRatePercent} from '../../utils';
 
-import {Offer} from '../../types/offer';
 import {Comment} from '../../types/comment';
 
+import { useAppSelector } from '../../hooks';
+
 type PropsType = {
-  offers: Offer[];
   comments: Comment[];
 }
 
-function Room({offers, comments}: PropsType):JSX.Element {
+function Room({comments}: PropsType):JSX.Element {
   const {id} = useParams();
   const offerId = Number(id);
-  const currentOfferIndex = offers.findIndex((offer) => offer.id === offerId);
-  const currentOffer = offers[currentOfferIndex];
+  const offers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.city);
+  const filteredOffers = offers.filter(({city}) => city.name === currentCity);
+  const currentOfferIndex = filteredOffers.findIndex((offer) => offer.id === offerId);
+  const currentOffer = filteredOffers[currentOfferIndex];
 
   const {
     images,
@@ -42,7 +45,7 @@ function Room({offers, comments}: PropsType):JSX.Element {
 
   const {name, isPro, avatarUrl} = host;
 
-  const nearbyOffers = offers.filter((offer) => offer.id !== offerId);
+  const nearbyOffers = filteredOffers.filter((offer) => offer.id !== offerId);
 
   const [selectedCard, setSelectedCard] = useState<number | undefined>(undefined);
 

@@ -11,14 +11,14 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const Cities = {
-  Paris: 'Paris',
-  Cologne: 'Cologne',
-  Brussels: 'Brussels',
-  Amsterdam: 'Amsterdam',
-  Hamburg: 'Hamburg',
-  Dusseldorf: 'Dusseldorf',
-};
+export const Cities = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
 
 export const Rates = {
   5: 'perfect',
@@ -26,4 +26,11 @@ export const Rates = {
   3: 'not bad',
   2: 'badly',
   1: 'terribly',
+};
+
+export const SortsList = {
+  POPULAR: 'Popular',
+  PRICE_TO_HIGH: 'Price: low to high',
+  PRICE_TO_LOW: 'Price: high to low',
+  TOP_RATED: 'Top rated first',
 };

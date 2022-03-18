@@ -1,13 +1,15 @@
 import { useEffect, useRef } from 'react';
-import {Icon, Marker} from 'leaflet';
+import leaflet, {Icon, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import useMap from '../../hooks/useMap';
 
 import { Offer } from '../../types/offer';
 
-import pin from './pin.svg';
-import pinActive from './pin-active.svg';
+const PIN = {
+  DEFAULT_URL: '/img/pin.svg',
+  CUSTOM_URL: '/img/pin-active.svg',
+};
 
 type PropsType = {
   className: string;
@@ -16,37 +18,47 @@ type PropsType = {
 }
 
 const defaultCustomIcon = new Icon({
-  iconUrl: pin,
+  iconUrl: PIN.DEFAULT_URL,
   iconSize: [27, 39],
   iconAnchor: [20, 40],
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: pinActive,
+  iconUrl: PIN.CUSTOM_URL,
   iconSize: [27, 39],
   iconAnchor: [20, 40],
 });
 
 function Map({className, offers, selectedPoint}: PropsType): JSX.Element {
   const currentCity = offers[0].city;
-  const {location: {latitude: lat, longitude: lng}, zoom} = currentCity;
+  const {location: {latitude: lat, longitude: lng, zoom}} = currentCity;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
 
   useEffect(() => {
+    const markers = leaflet.layerGroup();
+
     if (map) {
-      offers.forEach(({id, location: {latitude, longitude}}) => {
+      markers.addTo(map);
+
+      offers.forEach((offer) => {
+        const {location} = offer;
+
         const marker = new Marker({
-          lat: latitude,
-          lng: longitude,
+          lat: location.latitude,
+          lng: location.longitude,
         });
 
         marker.setIcon(
-          selectedPoint !== undefined && id === selectedPoint ? currentCustomIcon : defaultCustomIcon,
+          selectedPoint && offer.id === selectedPoint ? currentCustomIcon : defaultCustomIcon,
         ).addTo(map);
       });
-      map.flyTo([lat, lng], zoom);
+      map.flyTo([lat, lng], zoom, {animate: false, duration: 0.2});
     }
+
+    return () => {
+      markers.clearLayers();
+    };
   }, [lat, lng, map, offers, selectedPoint, zoom]);
 
   return (

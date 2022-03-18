@@ -3,19 +3,18 @@ import { useState } from 'react';
 import Header from '../../components/header/header';
 import OffersList from '../../components/offers-list/offers-list';
 import Locations from '../../components/locations/locations';
-import Sort from '../../components/sort/sort';
+import Sort from '../../components/sorts/sorts';
 import Map from '../../components/map/map';
 
-import { Offer } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
 
 import styles from './main.module.css';
 
-type MainPageProps = {
-  offers: Offer[];
-  currentCity: string;
-}
+function Main(): JSX.Element {
+  const currentCity = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers);
+  const filteredOffers = offers.filter(({city}) => city.name === currentCity);
 
-function Main({offers, currentCity}: MainPageProps): JSX.Element {
   const [selectedCard, setSelectedCard] = useState<number | undefined>(undefined);
 
   const onListCardHover = (id: number | undefined) => {
@@ -33,17 +32,21 @@ function Main({offers, currentCity}: MainPageProps): JSX.Element {
         <div className={`cities__places-container container ${styles['cities__places-container']}`}>
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offers.length} places to stay in {currentCity}</b>
+            <b className="places__found">{filteredOffers.length} places to stay in {currentCity}</b>
             <Sort />
             <OffersList
-              offers={offers}
+              offers={filteredOffers}
               className="cities"
               isSmall={false}
               onListCardHover={onListCardHover}
             />
           </section>
           <div className="cities__right-section">
-            <Map selectedPoint={selectedCard} className="cities__map" offers={offers} />
+            <Map
+              className="cities__map"
+              offers={filteredOffers}
+              selectedPoint={selectedCard}
+            />
           </div>
         </div>
       </div>
