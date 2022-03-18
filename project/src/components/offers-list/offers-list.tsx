@@ -1,8 +1,13 @@
 import cn from 'classnames';
 
 import OfferCard from '../../components/offer-card/offer-card';
+import { SortsList } from '../../const';
+
+import { useAppSelector } from '../../hooks';
 
 import { Offer } from '../../types/offer';
+
+import { sortOffers } from '../../utils';
 
 type PropsType = {
   offers: Offer[];
@@ -20,6 +25,10 @@ function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JS
     onListCardHover(id);
   };
 
+  const sortType = useAppSelector((state) => state.sortType);
+
+  const sortedOffers = sortOffers(offers, SortsList, sortType);
+
   return (
     <div className={cn('places__list', {
       'cities__places-list tabs__content': className === 'cities',
@@ -27,7 +36,7 @@ function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JS
     })}
     >
       {
-        offers.map((offer) => (
+        sortedOffers.map((offer) => (
           <OfferCard key={offer.id}
             offer={offer}
             onOfferCardMouseEnter={handleOfferCardMouseEnter}
