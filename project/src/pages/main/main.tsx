@@ -10,6 +10,7 @@ import Spinner from '../../components/spinner/spinner';
 import { useAppSelector } from '../../hooks';
 
 import styles from './main.module.css';
+import { isCheckedAuth } from '../../utils';
 
 function Main(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
@@ -22,9 +23,9 @@ function Main(): JSX.Element {
     setSelectedCard(id);
   };
 
-  const isDataLoded = useAppSelector((state) => state.isDataLoaded);
+  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
 
-  if (!isDataLoded) {
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
       <Spinner />
     );

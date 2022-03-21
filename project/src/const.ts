@@ -13,6 +13,7 @@ export enum AuthorizationStatus {
 
 export enum APIRoute {
   Offers = '/hotels',
+  Login = '/login',
 }
 
 export const Cities = [
@@ -38,3 +39,9 @@ export const SortsList = {
   PRICE_TO_LOW: 'Price: high to low',
   TOP_RATED: 'Top rated first',
 };
+
+export const enum HTTP_CODE {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  NOT_FOUND = 404,
+}

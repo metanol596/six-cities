@@ -1,4 +1,7 @@
+import { AuthorizationStatus } from '../const';
+
 import { Comment } from './comment';
+
 import {Offer} from './offer';
 
 export type InitialState = {
@@ -7,4 +10,5 @@ export type InitialState = {
   isDataLoaded: boolean;
   comments: Comment[];
   sortType: string;
+  authorizationStatus: AuthorizationStatus;
 };

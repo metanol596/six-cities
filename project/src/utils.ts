@@ -1,3 +1,5 @@
+import { AuthorizationStatus } from './const';
+
 import { Offer } from './types/offer';
 
 export const getRatePercent = (rating: number) => {
@@ -21,3 +23,5 @@ export const sortOffers = (offers: Offer[], sortsList: {[key: string]: string}, 
       return offers;
   }
 };
+
+export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Unknown;

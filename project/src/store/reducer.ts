@@ -1,9 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { cityChange, loadOffers, sortChange } from './action';
 
-import { Cities } from '../const';
+import { cityChange, loadOffers, sortChange, requireAuthorization } from './action';
 
-import { InitialState } from '../types/initialState';
+import { AuthorizationStatus, Cities } from '../const';
+
+import { InitialState } from '../types/initial-state';
 
 const initialState: InitialState = {
   city: Cities[0],
@@ -11,6 +12,7 @@ const initialState: InitialState = {
   isDataLoaded: false,
   comments: [],
   sortType: 'Popular',
+  authorizationStatus: AuthorizationStatus.Auth,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -24,5 +26,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(sortChange, (state, action) => {
       state.sortType = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
