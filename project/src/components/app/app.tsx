@@ -4,18 +4,12 @@ import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import NotFound from '../../pages/not-found/not-found';
-import Room from '../../pages/room/room';
+//import Room from '../../pages/room/room';
 import PrivateRoute from '../../hocs/private-route/private-route';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 
-import { Comment } from '../../types/comment';
-
-type AppPageProps = {
-  comments: Comment[];
-}
-
-function App({comments}: AppPageProps): JSX.Element {return (
+function App(): JSX.Element {return (
   <BrowserRouter>
     <Routes>
       <Route
@@ -31,12 +25,12 @@ function App({comments}: AppPageProps): JSX.Element {return (
         </PrivateRoute>
       }
       />
-      <Route
+      {/*<Route
         path={AppRoute.Offer}
         element={
           <Room comments={comments} />
         }
-      />
+      />*/}
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>

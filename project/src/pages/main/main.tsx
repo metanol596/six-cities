@@ -5,6 +5,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import Locations from '../../components/locations/locations';
 import Sort from '../../components/sorts/sorts';
 import Map from '../../components/map/map';
+import Spinner from '../../components/spinner/spinner';
 
 import { useAppSelector } from '../../hooks';
 
@@ -20,6 +21,14 @@ function Main(): JSX.Element {
   const onListCardHover = (id: number | undefined) => {
     setSelectedCard(id);
   };
+
+  const isDataLoded = useAppSelector((state) => state.isDataLoaded);
+
+  if (!isDataLoded) {
+    return (
+      <Spinner />
+    );
+  }
 
   return (
     <>

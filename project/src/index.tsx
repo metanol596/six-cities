@@ -4,14 +4,16 @@ import { Provider } from 'react-redux';
 
 import App from './components/app/app';
 
-import { comments } from './mocks/comments';
-
 import { store } from './store';
+
+import { fetchOffersAction } from './store/api-actions';
+
+store.dispatch(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store} >
-      <App comments={comments} />
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
