@@ -1,7 +1,7 @@
 import cn from 'classnames';
 
 import OfferCard from '../../components/offer-card/offer-card';
-import { SortsList } from '../../const';
+import { SortList } from '../../const';
 
 import { useAppSelector } from '../../hooks';
 
@@ -27,7 +27,7 @@ function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JS
 
   const sortType = useAppSelector((state) => state.sortType);
 
-  const sortedOffers = sortOffers(offers, SortsList, sortType);
+  const sortedOffers = sortOffers(offers, SortList, sortType);
 
   return (
     <div className={cn('places__list', {

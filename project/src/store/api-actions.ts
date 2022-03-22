@@ -8,16 +8,21 @@ import { UserData } from '../types/user-data';
 
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 
-import { loadOffers, redirectToRoute, requireAuthorization } from './action';
+import { redirectToRoute, requireAuthorization } from './action';
 
-import { saveToken } from '../services/token';
-import { errorHandle } from '../services/error-handle';
+import { saveToken, dropToken } from '../services/token';
+import { handleError } from '../services/handle-error';
 
 export const fetchOffersAction = createAsyncThunk(
-  'fetchOffers',
+  'data/fetchOffers',
   async () => {
-    const {data} = await api.get<Offer[]>(APIRoute.Offers);
-    store.dispatch(loadOffers(data));
+    try {
+      const {data} = await api.get<Offer[]>(APIRoute.Offers);
+      return data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
   },
 );
 
@@ -28,14 +33,14 @@ export const checkAuthAction = createAsyncThunk(
       await api.get(APIRoute.Login);
       store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
     } catch(error) {
-      errorHandle(error);
+      handleError(error);
       store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
   },
 );
 
 export const loginAction = createAsyncThunk(
-  'login',
+  'user/login',
   async ({login: email, password}: AuthData) => {
     try {
       const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
@@ -43,8 +48,22 @@ export const loginAction = createAsyncThunk(
       store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
       store.dispatch(redirectToRoute(AppRoute.Main));
     } catch (error) {
-      errorHandle(error);
+      handleError(error);
       store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    }
+  },
+);
+
+export const logoutAction = createAsyncThunk(
+  'user/logout',
+  async () => {
+    try {
+      await api.delete(APIRoute.Logout);
+      dropToken();
+      store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    } catch (error) {
+      handleError(error);
+      store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
     }
   },
 );

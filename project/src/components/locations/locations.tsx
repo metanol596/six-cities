@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 
-import { Cities } from '../../const';
+import { CITIES } from '../../const';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
@@ -15,7 +15,7 @@ function Locations(): JSX.Element {
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {
-          Cities.map((city) => (
+          CITIES.map((city) => (
             <li
               key={city}
               className="locations__item"

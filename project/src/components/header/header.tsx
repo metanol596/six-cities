@@ -2,13 +2,15 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { store } from '../../store';
-import { requireAuthorization } from '../../store/action';
+import { logoutAction } from '../../store/api-actions';
 
 function Header (): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const dispatch = useAppDispatch();
+
+  const isAuth = () => authorizationStatus === AuthorizationStatus.Auth;
 
   return (
     <header className="header">
@@ -33,20 +35,28 @@ function Header (): JSX.Element {
               <li className="header__nav-item user">
                 <Link
                   className="header__nav-link header__nav-link--profile"
-                  to={authorizationStatus === AuthorizationStatus.Auth ? AppRoute.Favorites : AppRoute.Login} title="Favorites"
+                  to={AppRoute.Favorites} title="Favorites"
                 >
                   <div className="header__avatar-wrapper user__avatar-wrapper">
                   </div>
-                  <span className={authorizationStatus === AuthorizationStatus.Auth ? 'header__user-name user__name' : 'header__login'}>{authorizationStatus === AuthorizationStatus.Auth ? 'Oliver.conner@gmail.com' : 'Sign in'}</span>
+                  {
+                    isAuth() ?
+                      <span className='header__user-name user__name'>Oliver.conner@gmail.com</span> :
+                      <span className='header__login'>Sign in</span>
+                  }
                 </Link>
               </li>
               {
-                authorizationStatus === AuthorizationStatus.Auth && (
+                isAuth() && (
                   <li className="header__nav-item">
-                    <Link className="header__nav-link" to={AppRoute.Login} title="Sign out">
+                    <Link
+                      className="header__nav-link"
+                      to={AppRoute.Login}
+                      title="Sign out"
+                      onClick={() => dispatch(logoutAction())}
+                    >
                       <span
                         className="header__signout"
-                        onClick={() => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth))}
                       >
                         Sign out
                       </span>

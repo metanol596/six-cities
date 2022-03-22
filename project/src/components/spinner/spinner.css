@@ -4,7 +4,7 @@
 }
 
 .ldio-exa0pmmy6su div {
-  left: 94px;
+  left: 0;
   top: 48px;
   position: absolute;
   animation: ldio-exa0pmmy6su linear 1s infinite;
@@ -88,7 +88,7 @@
 }
 
 .loadingio-spinner-spinner-9ecgq5xjpn6 {
-  width: 200px;
+  width: 100%;
   height: 200px;
   display: inline-block;
   overflow: hidden;
@@ -99,7 +99,7 @@
   width: 100%;
   height: 100%;
   position: relative;
-  transform: translateZ(0) scale(1);
+  transform: translateX(50%) translateZ(0) scale(0.5);
   backface-visibility: hidden;
   transform-origin: 0 0; /* see note above */
 }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import SortItem from '../sort-item/sort-item';
 
-import { SortsList } from '../../const';
+import { SortList } from '../../const';
 import { useAppSelector } from '../../hooks';
 
 function Sorts(): JSX.Element {
@@ -25,7 +25,7 @@ function Sorts(): JSX.Element {
       </span>
       <ul className={`places__options places__options--custom ${visible && 'places__options--opened'}`}>
         {
-          Object.values(SortsList).map((sortItem) => (
+          Object.values(SortList).map((sortItem) => (
             <SortItem
               key={sortItem}
               sortType={sortItem}

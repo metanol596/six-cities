@@ -14,9 +14,10 @@ export enum AuthorizationStatus {
 export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
+  Logout = '/logout',
 }
 
-export const Cities = [
+export const CITIES = [
   'Paris',
   'Cologne',
   'Brussels',
@@ -25,7 +26,7 @@ export const Cities = [
   'Dusseldorf',
 ];
 
-export const Rates = {
+export const rates = {
   5: 'perfect',
   4: 'good',
   3: 'not bad',
@@ -33,15 +34,22 @@ export const Rates = {
   1: 'terribly',
 };
 
-export const SortsList = {
+export const SortList = {
   POPULAR: 'Popular',
   PRICE_TO_HIGH: 'Price: low to high',
   PRICE_TO_LOW: 'Price: high to low',
   TOP_RATED: 'Top rated first',
 };
 
-export const enum HTTP_CODE {
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-  NOT_FOUND = 404,
+export const enum HTTPCode {
+  BadRequest = 400,
+  Unauthorized = 401,
+  NotFound = 404,
+}
+
+export const enum FetchStatus {
+  Idle = 'IDLE',
+  Pending = 'PENDING',
+  Success = 'SUCCESS',
+  Failed = 'FAILED',
 }
