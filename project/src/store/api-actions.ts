@@ -8,7 +8,7 @@ import { UserData } from '../types/user-data';
 
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 
-import { redirectToRoute, requireAuthorization } from './action';
+import { loadOffers, login, redirectToRoute, requireAuthorization } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 import { handleError } from '../services/handle-error';
@@ -18,7 +18,7 @@ export const fetchOffersAction = createAsyncThunk(
   async () => {
     try {
       const {data} = await api.get<Offer[]>(APIRoute.Offers);
-      return data;
+      store.dispatch(loadOffers(data));
     } catch (error) {
       handleError(error);
       throw error;
@@ -43,9 +43,10 @@ export const loginAction = createAsyncThunk(
   'user/login',
   async ({login: email, password}: AuthData) => {
     try {
-      const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
-      saveToken(token);
+      const res = await api.post<UserData>(APIRoute.Login, {email, password});
+      saveToken(res.data.token);
       store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      store.dispatch(login(res.data));
       store.dispatch(redirectToRoute(AppRoute.Main));
     } catch (error) {
       handleError(error);

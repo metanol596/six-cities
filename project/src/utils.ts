@@ -29,3 +29,6 @@ export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean
 
 export const isCheckedPending = (fetchStatus: FetchStatus): boolean =>
   fetchStatus === FetchStatus.Idle || fetchStatus === FetchStatus.Pending;
+
+export const isAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Auth;

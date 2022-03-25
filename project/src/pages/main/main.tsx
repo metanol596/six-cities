@@ -10,7 +10,7 @@ import Spinner from '../../components/spinner/spinner';
 import { useAppSelector } from '../../hooks';
 
 import styles from './main.module.css';
-import { isCheckedAuth, isCheckedPending } from '../../utils';
+import { isCheckedAuth } from '../../utils';
 
 function Main(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
@@ -23,13 +23,7 @@ function Main(): JSX.Element {
     setSelectedCard(id);
   };
 
-  const {authorizationStatus, offersStatus} = useAppSelector((state) => state);
-
-  //if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
-  //  return (
-  //    <Spinner />
-  //  );
-  //}
+  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
 
   return (
     <>
@@ -40,7 +34,7 @@ function Main(): JSX.Element {
       </div>
       <div className="cities">
         {
-          (isCheckedAuth(authorizationStatus) || isCheckedPending(offersStatus)) ? <Spinner />
+          (isCheckedAuth(authorizationStatus) || !isDataLoaded) ? <Spinner />
             : (
               <div className={`cities__places-container container ${styles['cities__places-container']}`}>
                 <section className="cities__places places">

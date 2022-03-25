@@ -1,16 +1,19 @@
 import { Link } from 'react-router-dom';
 
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { logoutAction } from '../../store/api-actions';
 
-function Header (): JSX.Element {
+import { isAuth } from '../../utils';
+
+function Header(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  const isAuth = () => authorizationStatus === AuthorizationStatus.Auth;
+  const {avatarUrl, email} = user;
 
   return (
     <header className="header">
@@ -37,23 +40,32 @@ function Header (): JSX.Element {
                   className="header__nav-link header__nav-link--profile"
                   to={AppRoute.Favorites} title="Favorites"
                 >
-                  <div className="header__avatar-wrapper user__avatar-wrapper">
+                  <div
+                    className="header__avatar-wrapper user__avatar-wrapper"
+                    style={{
+                      backgroundImage: `url(${avatarUrl})`,
+                      borderRadius: '50%',
+                    }}
+                  >
                   </div>
                   {
-                    isAuth() ?
-                      <span className='header__user-name user__name'>Oliver.conner@gmail.com</span> :
+                    isAuth(authorizationStatus) ?
+                      <span className='header__user-name user__name'>{email}</span> :
                       <span className='header__login'>Sign in</span>
                   }
                 </Link>
               </li>
               {
-                isAuth() && (
+                isAuth(authorizationStatus) && (
                   <li className="header__nav-item">
                     <Link
                       className="header__nav-link"
                       to={AppRoute.Login}
                       title="Sign out"
-                      onClick={() => dispatch(logoutAction())}
+                      onClick={(evt) => {
+                        evt.preventDefault();
+                        dispatch(logoutAction());
+                      }}
                     >
                       <span
                         className="header__signout"
