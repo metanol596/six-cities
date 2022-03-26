@@ -1,7 +1,7 @@
 import cn from 'classnames';
 
 type PropsType = {
-  isFavorite: boolean;
+  isFavorite: boolean | undefined;
   className: string;
 }
 

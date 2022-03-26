@@ -10,7 +10,9 @@ function ReviewsForm(): JSX.Element {
     review: '',
   });
 
-  const isDisabled = formData.rating === '' || formData.review.length < MIN_REVIEW_LENGTH || formData.review.length > MAX_REVIEW_LENGTH;
+  const reviewLength = formData.review.length;
+  const isValidReviewLength = reviewLength < MIN_REVIEW_LENGTH || reviewLength > MAX_REVIEW_LENGTH;
+  const isDisabled = formData.rating === '' || isValidReviewLength;
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = evt.target;

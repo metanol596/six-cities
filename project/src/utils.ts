@@ -1,9 +1,13 @@
+import { AuthorizationStatus, FetchStatus } from './const';
+
 import { Offer } from './types/offer';
 
-export const getRatePercent = (rating: number) => {
+export const getRatePercent = (rating: number | undefined) => {
   const MAX_RATE = 5;
 
-  return rating * 100 / MAX_RATE;
+  if (rating) {
+    return rating * 100 / MAX_RATE;
+  }
 };
 
 export const sortOffers = (offers: Offer[], sortsList: {[key: string]: string}, type: string) => {
@@ -21,3 +25,12 @@ export const sortOffers = (offers: Offer[], sortsList: {[key: string]: string}, 
       return offers;
   }
 };
+
+export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Unknown;
+
+export const isCheckedPending = (fetchStatus: FetchStatus): boolean =>
+  fetchStatus === FetchStatus.Idle || fetchStatus === FetchStatus.Pending;
+
+export const isAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Auth;
