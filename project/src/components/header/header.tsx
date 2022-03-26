@@ -15,6 +15,9 @@ function Header(): JSX.Element {
 
   const {avatarUrl, email} = user;
 
+  const DEFAULT_AVATAR_URL = '../img/avatar.svg';
+  const currentAvatarUrl = isAuth(authorizationStatus) ? avatarUrl : DEFAULT_AVATAR_URL;
+
   return (
     <header className="header">
       <div className="container">
@@ -43,7 +46,7 @@ function Header(): JSX.Element {
                   <div
                     className="header__avatar-wrapper user__avatar-wrapper"
                     style={{
-                      backgroundImage: `url(${avatarUrl})`,
+                      backgroundImage: `url(${currentAvatarUrl})`,
                       borderRadius: '50%',
                     }}
                   >

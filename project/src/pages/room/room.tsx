@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 
 import Header from '../../components/header/header';
@@ -11,47 +11,29 @@ import OffersList from '../../components/offers-list/offers-list';
 
 import {getRatePercent} from '../../utils';
 
-import {Comment} from '../../types/comment';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { useAppSelector } from '../../hooks';
+import { fetchNearbyOffersAction, fetchOfferAction, fetchCommentsAction } from '../../store/api-actions';
 
-type PropsType = {
-  comments: Comment[];
-}
-
-function Room({comments}: PropsType):JSX.Element {
+function Room():JSX.Element {
   const {id} = useParams();
   const offerId = Number(id);
-  const offers = useAppSelector((state) => state.offers);
-  const currentCity = useAppSelector((state) => state.city);
-  const filteredOffers = offers.filter(({city}) => city.name === currentCity);
-  const currentOfferIndex = filteredOffers.findIndex((offer) => offer.id === offerId);
-  const currentOffer = filteredOffers[currentOfferIndex];
+  const {nearbyOffers, offer, comments} = useAppSelector((state) => state);
 
-  const {
-    images,
-    title,
-    isFavorite,
-    isPremium,
-    rating,
-    type,
-    bedrooms,
-    maxAdults,
-    price,
-    goods,
-    host,
-    description,
-  } = currentOffer;
+  const dispatch = useAppDispatch();
 
-  const {name, isPro, avatarUrl} = host;
-
-  const nearbyOffers = filteredOffers.filter((offer) => offer.id !== offerId);
+  useEffect(() => {
+    dispatch(fetchOfferAction(offerId));
+    dispatch(fetchNearbyOffersAction(offerId));
+    dispatch(fetchCommentsAction(offerId));
+  }, [dispatch, offerId]);
 
   const [selectedCard, setSelectedCard] = useState<number | undefined>(undefined);
 
   const onListCardHover = (cardId: number | undefined) => {
     setSelectedCard(cardId);
   };
+
 
   return (
     <div className="page">
@@ -61,7 +43,7 @@ function Room({comments}: PropsType):JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((image) => (
+              {offer?.images.map((image) => (
                 <div key={image} className="property__image-wrapper">
                   <img className="property__image" src={image} alt="studio" />
                 </div>
@@ -70,40 +52,40 @@ function Room({comments}: PropsType):JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium && <Badge text='Premium' className='property__mark' />}
+              {offer?.isPremium && <Badge text='Premium' className='property__mark' />}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {title}
+                  {offer?.title}
                 </h1>
-                <Bookmark isFavorite={isFavorite} className='property' />
+                <Bookmark isFavorite={offer?.isFavorite} className='property' />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${getRatePercent(rating)}%`}}></span>
+                  <span style={{width: `${getRatePercent(offer?.rating)}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{rating}</span>
+                <span className="property__rating-value rating__value">{offer?.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {type}
+                  {offer?.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {bedrooms} Bedrooms
+                  {offer?.bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {maxAdults} adults
+                  Max {offer?.maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{price}</b>
+                <b className="property__price-value">&euro;{offer?.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
                   {
-                    goods.map((item) => (
+                    offer?.goods.map((item) => (
                       <li key={item} className="property__inside-item">
                         {item}
                       </li>
@@ -115,23 +97,23 @@ function Room({comments}: PropsType):JSX.Element {
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={offer?.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {name}
+                    {offer?.host.name}
                   </span>
                   <span className="property__user-status">
-                    {isPro}
+                    {offer?.host.isPro}
                   </span>
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    {description}
+                    {offer?.description}
                   </p>
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments?.length}</span></h2>
                 <ReviewsList comments={comments} />
                 <ReviewsForm />
               </section>

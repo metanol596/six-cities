@@ -8,10 +8,11 @@ import { UserData } from '../types/user-data';
 
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 
-import { loadOffers, login, redirectToRoute, requireAuthorization } from './action';
+import { loadOffers, loadOffer, loadNearbyOffers, loadComments, login, redirectToRoute, requireAuthorization } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 import { handleError } from '../services/handle-error';
+import { Comment } from '../types/comment';
 
 export const fetchOffersAction = createAsyncThunk(
   'data/fetchOffers',
@@ -19,6 +20,45 @@ export const fetchOffersAction = createAsyncThunk(
     try {
       const {data} = await api.get<Offer[]>(APIRoute.Offers);
       store.dispatch(loadOffers(data));
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+);
+
+export const fetchOfferAction = createAsyncThunk(
+  'data/fetchOffer',
+  async (id: number) => {
+    try {
+      const {data} = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+      store.dispatch(loadOffer(data));
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk(
+  'data/fetchNearbyOffers',
+  async (id: number) => {
+    try {
+      const {data} = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
+      store.dispatch(loadNearbyOffers(data));
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+);
+
+export const fetchCommentsAction = createAsyncThunk(
+  'data/fetchComments',
+  async (id: number) => {
+    try {
+      const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${id}`);
+      store.dispatch(loadComments(data));
     } catch (error) {
       handleError(error);
       throw error;

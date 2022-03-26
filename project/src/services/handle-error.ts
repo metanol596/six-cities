@@ -24,7 +24,7 @@ export const handleError = (error: ErrorType) => {
         toast.info(response.data.error);
         break;
       default:
-        toast.info(response.data.error);
+        toast.info(`'Unknown error': ${response.data.error}`);
     }
   }
 };

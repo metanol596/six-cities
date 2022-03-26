@@ -4,7 +4,7 @@ import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import NotFound from '../../pages/not-found/not-found';
-//import Room from '../../pages/room/room';
+import Room from '../../pages/room/room';
 import PrivateRoute from '../../hocs/private-route/private-route';
 
 import { AppRoute } from '../../const';
@@ -33,12 +33,12 @@ function App(): JSX.Element {
           </PrivateRoute>
         }
         />
-        {/*<Route
+        <Route
           path={AppRoute.Offer}
           element={
-            <Room comments={comments} />
+            <Room />
           }
-        />*/}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </HistoryRouter>
