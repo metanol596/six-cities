@@ -12,16 +12,16 @@ import {
   loadOffer,
   requireAuthorization,
   login,
-  loadComments,
-  loadNearbyOffers
+  loadNearbyOffers,
+  loadComments
 } from './action';
 
-interface InitialState {
+type InitialState = {
   city: string;
 
   offers: Offer[];
   nearbyOffers: Offer[];
-  comments: Comment[] | null;
+  comments: Comment[];
   offer: Offer | null;
   isDataLoaded: boolean;
 

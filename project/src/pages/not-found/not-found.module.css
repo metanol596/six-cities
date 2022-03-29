@@ -4,11 +4,11 @@
   width: 500px;
 }
 
-.notFound__text {
+.notFoundText {
   text-align: center;
 }
 
-.notFound__link {
+.notFoundLink {
   color: #ffffff;
   background-color: #4481c3;
   text-align: center;

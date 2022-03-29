@@ -14,7 +14,7 @@ const PIN = {
 type PropsType = {
   className: string;
   offers: Offer[];
-  selectedPoint?: number | undefined;
+  selectedPoint: number | undefined;
 }
 
 const defaultCustomIcon = new Icon({

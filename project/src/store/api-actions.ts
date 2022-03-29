@@ -1,18 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { api, store } from '../store';
-
 import { Offer } from '../types/offer';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
+import { Comment } from '../types/comment';
 
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 
-import { loadOffers, loadOffer, loadNearbyOffers, loadComments, login, redirectToRoute, requireAuthorization } from './action';
+import { api, store } from '../store/index';
+import {
+  loadComments,
+  //loadComment,
+  loadNearbyOffers,
+  loadOffer,
+  loadOffers,
+  login,
+  redirectToRoute,
+  requireAuthorization
+} from './action';
 
-import { saveToken, dropToken } from '../services/token';
 import { handleError } from '../services/handle-error';
-import { Comment } from '../types/comment';
+import { saveToken, dropToken } from '../services/token';
+
 
 export const fetchOffersAction = createAsyncThunk(
   'data/fetchOffers',
@@ -48,7 +57,6 @@ export const fetchNearbyOffersAction = createAsyncThunk(
       store.dispatch(loadNearbyOffers(data));
     } catch (error) {
       handleError(error);
-      throw error;
     }
   },
 );
@@ -61,10 +69,21 @@ export const fetchCommentsAction = createAsyncThunk(
       store.dispatch(loadComments(data));
     } catch (error) {
       handleError(error);
-      throw error;
     }
   },
 );
+
+//export const fetchCommentAction = createAsyncThunk(
+//  'data/fetchComment',
+//  async ({id, comment, rating}: Comment) => {
+//    try {
+//      const {data} = await api.post<Comment>(`${APIRoute.Comments}/${id}`, {comment, rating});
+//      store.dispatch(loadComment(data));
+//    } catch (error) {
+//      handleError(error);
+//    }
+//  },
+//);
 
 export const checkAuthAction = createAsyncThunk(
   'user/checkAuth',

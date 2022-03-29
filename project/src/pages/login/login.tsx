@@ -45,13 +45,13 @@ function Login():JSX.Element {
     email: {
       value: '',
       error: false,
-      errorText: 'Not valid email',
+      errorText: 'The email cannot be empty and must contain the @ sign and the domain name',
       regex: EMAIL_VALID_SYMBOLS,
     },
     password: {
       value: '',
       error: false,
-      errorText: 'Not valid password',
+      errorText: 'The password cannot be empty and must contain at least one digit and one letter',
       regex: PASSWORD_VALID_SYMBOLS,
     },
   });
@@ -103,7 +103,7 @@ function Login():JSX.Element {
             >
               {Object.entries(authFormFields).map(([name, label]) => {
                 const inputClass = cn('login__input', 'form__input', {
-                  [styles['form__input--error']]: formState[name].error,
+                  [styles.inputError]: formState[name].error,
                 });
 
                 return (
@@ -126,7 +126,7 @@ function Login():JSX.Element {
                     {
                       formState[name].error &&
                         (
-                          <p className={styles['field-error-message']}>
+                          <p className={styles.errorMessage}>
                             {formState[name].errorText}
                           </p>
                         )

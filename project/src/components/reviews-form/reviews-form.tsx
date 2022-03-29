@@ -1,5 +1,10 @@
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, FormEvent, useState} from 'react';
+
 import Rating from '../rating/rating';
+
+//import { useAppDispatch } from '../../hooks';
+
+//import { loadComment } from '../../store/action';
 
 const MAX_REVIEW_LENGTH = 300;
 const MIN_REVIEW_LENGTH = 50;
@@ -10,9 +15,22 @@ function ReviewsForm(): JSX.Element {
     review: '',
   });
 
+  //const dispatch = useAppDispatch();
+
   const reviewLength = formData.review.length;
   const isValidReviewLength = reviewLength < MIN_REVIEW_LENGTH || reviewLength > MAX_REVIEW_LENGTH;
   const isDisabled = formData.rating === '' || isValidReviewLength;
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    //const comment = {
+    //  comment: formData.review,
+    //  rating: formData.rating,
+    //};
+
+    //dispatch(loadComment(comment));
+  };
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
@@ -21,8 +39,18 @@ function ReviewsForm(): JSX.Element {
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
-      <label className="reviews__label form__label" htmlFor="review">Your review</label>
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleSubmit}
+    >
+      <label
+        className="reviews__label form__label"
+        htmlFor="review"
+      >
+        Your review
+      </label>
 
       <Rating onRatingChange={handleChange} />
 

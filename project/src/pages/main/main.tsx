@@ -9,8 +9,9 @@ import Spinner from '../../components/spinner/spinner';
 
 import { useAppSelector } from '../../hooks';
 
-import styles from './main.module.css';
 import { isCheckedAuth } from '../../utils';
+
+import styles from './main.module.css';
 
 function Main(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
@@ -36,7 +37,7 @@ function Main(): JSX.Element {
         {
           (isCheckedAuth(authorizationStatus) || !isDataLoaded) ? <Spinner />
             : (
-              <div className={`cities__places-container container ${styles['cities__places-container']}`}>
+              <div className={`cities__places-container container ${styles.citiesPlacesContainer}`}>
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">{filteredOffers.length} places to stay in {currentCity}</b>

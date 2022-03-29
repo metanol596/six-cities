@@ -10,7 +10,7 @@ export type City = {
   zoom?: number,
 }
 
-type Host = {
+export type Host = {
   id: number,
   name: string,
   isPro: boolean,
