@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../hooks';
 
 import { fetchCommentAction } from '../../store/api-actions';
 import { NewComment } from '../../types/comment';
+import { toast } from 'react-toastify';
 
 const MAX_REVIEW_LENGTH = 300;
 const MIN_REVIEW_LENGTH = 50;
@@ -37,8 +38,13 @@ function ReviewsForm({offerId}: PropsType): JSX.Element {
       id: offerId,
     };
 
-    dispatch(fetchCommentAction(commentData));
-    setFormData({...formData, review: '', rating: ''});
+    dispatch(fetchCommentAction(commentData))
+      .then(() => setFormData({
+        ...formData,
+        review: '',
+        rating: '',
+      }))
+      .catch(() => toast.info('Comment not sended. Please, try again later'));
   };
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -61,7 +67,7 @@ function ReviewsForm({offerId}: PropsType): JSX.Element {
         Your review
       </label>
 
-      <Rating onRatingChange={handleChange} />
+      <Rating onRatingChange={handleChange} currentRating={+formData.rating} />
 
       <textarea
         onChange={handleChange}

@@ -3,9 +3,10 @@ import { rates } from '../../const';
 
 type PropsType = {
   onRatingChange: (evt: ChangeEvent<HTMLInputElement>) => void;
+  currentRating: number;
 }
 
-function Rating({onRatingChange}: PropsType) {
+function Rating({onRatingChange, currentRating}: PropsType) {
   return (
     <div className="reviews__rating-form form__rating">
       {
@@ -18,6 +19,7 @@ function Rating({onRatingChange}: PropsType) {
               value={rate}
               id={`${rate}-stars`}
               type="radio"
+              checked={currentRating === +rate}
             />
             <label
               htmlFor={`${rate}-stars`}

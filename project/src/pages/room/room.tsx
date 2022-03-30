@@ -21,8 +21,6 @@ function Room():JSX.Element | null {
 
   const dispatch = useAppDispatch();
   const offer = useAppSelector((state) => state.offer);
-  // eslint-disable-next-line no-console
-  //console.log(nearbyOffers);
   const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
   const comments = useAppSelector((state) => state.comments);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -35,16 +33,6 @@ function Room():JSX.Element | null {
     }
   }, [dispatch, offer, offerId]);
 
-  //const offers = useAppSelector((state) => state.offers);
-  // eslint-disable-next-line no-console
-  console.log(offer);
-  // eslint-disable-next-line no-console
-  console.log(comments);
-
-  //const currentCity = useAppSelector((state) => state.city);
-  //const filteredOffers = offers.filter(({city}) => city.name === currentCity);
-  //const currentOfferIndex = filteredOffers.findIndex((offer) => offer.id === offerId);
-  //const currentOffer = filteredOffers[currentOfferIndex];
   if (!offer) {
     return null;
   }
@@ -65,8 +53,6 @@ function Room():JSX.Element | null {
   } = offer;
 
   const {name, isPro, avatarUrl} = host;
-
-  //const nearbyOffers = filteredOffers.filter((offer) => offer.id !== offerId);
 
   return (
     <div className="page">
