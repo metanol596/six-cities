@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { AppRoute, AuthorizationStatus } from '../const';
-import { Comment } from '../types/comment';
+//import { UserCommentData } from '../types/comment';
 
 import { Offer } from './../types/offer';
 
@@ -9,6 +9,7 @@ export const Action = {
   CITY_CHANGE: 'CITY_CHANGE',
   LOAD_OFFERS: 'LOAD_OFFERS',
   LOAD_COMMENTS: 'LOAD_COMMENTS',
+  //LOAD_COMMENT: 'LOAD_COMMENT',
   LOAD_OFFER: 'LOAD_OFFER',
   LOAD_NEARBY_OFFERS: 'LOAD_NEARBY_OFFERS',
   SORT_CHANGE: 'SORT_CHANGE',
@@ -19,9 +20,10 @@ export const Action = {
 
 export const cityChange = createAction(Action.CITY_CHANGE, (city) => ({payload: city}));
 export const loadOffers = createAction<Offer[]>(Action.LOAD_OFFERS);
-export const loadOffer = createAction<Offer>(Action.LOAD_OFFER);
+export const loadOffer = createAction(Action.LOAD_OFFER, (value) => ({payload: value}));
 export const loadNearbyOffers = createAction<Offer[]>(Action.LOAD_NEARBY_OFFERS);
-export const loadComments = createAction<Comment[]>(Action.LOAD_COMMENTS);
+export const loadComments = createAction(Action.LOAD_COMMENTS, (comments) => ({payload: comments}));
+//export const loadComment = createAction<UserCommentData>(Action.LOAD_COMMENT);
 export const sortChange = createAction(Action.SORT_CHANGE, (sortType) => ({payload: sortType}));
 export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQUIRE_AUTH);
 export const redirectToRoute = createAction<AppRoute>(Action.REDIRECT_TO_ROUTE);

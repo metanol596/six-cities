@@ -10,6 +10,10 @@ export const getRatePercent = (rating: number | undefined) => {
   }
 };
 
+const getRandomInteger = (minValue: number, maxValue: number) => Math.floor(Math.random() * (maxValue + 1 - minValue) + minValue);
+
+export const getRandomArrayElement = (array: string[]) => array[getRandomInteger(0, array.length - 1)];
+
 export const sortOffers = (offers: Offer[], sortsList: {[key: string]: string}, type: string) => {
   switch (type) {
     case sortsList.PRICE_TO_HIGH:

@@ -22,11 +22,12 @@ function App(): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={
-            <Main />
-          }
+          element={<Main />}
         />
-        <Route path={AppRoute.Login} element={<Login />} />
+        <Route
+          path={AppRoute.Login}
+          element={<Login />}
+        />
         <Route path={AppRoute.Favorites} element={
           <PrivateRoute authorizationStatus={authorizationStatus}>
             <Favorites />
@@ -39,6 +40,7 @@ function App(): JSX.Element {
             <Room />
           }
         />
+        <Route path="offer" element={<Main />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </HistoryRouter>

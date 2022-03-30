@@ -1,16 +1,18 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
 
 import Header from '../../components/header/header';
 //import Spinner from '../../components/spinner/spinner';
 
 import { CITIES } from '../../const';
 
-import { AuthData } from '../../types/auth-data';
+import { getRandomArrayElement } from '../../utils';
 
 import { useAppDispatch } from '../../hooks';
 
 import { loginAction } from '../../store/api-actions';
+import { cityChange } from '../../store/action';
 
 
 import styles from './login.module.css';
@@ -31,43 +33,40 @@ const authFormFields = {
   password: 'Password',
 };
 
-const randomCityIndex = Math.floor(Math.random() * CITIES.length);
-const randomCity = CITIES[randomCityIndex];
+const randomCity = getRandomArrayElement(CITIES);
+
+const EMAIL_VALID_SYMBOLS = /[-.\w]+@([\w-]+\.)+[\w-]+/g;
+const PASSWORD_VALID_SYMBOLS = /([a-z]+[0-9])|([0-9]+[a-z])/gi;
 
 function Login():JSX.Element {
-  const EMAIL_VALID_SYMBOLS = /[-.\w]+@([\w-]+\.)+[\w-]+/g;
-  const PASSWORD_VALID_SYMBOLS = /\w/;
-
   const dispatch = useAppDispatch();
-
-  const isValidField = (value: string, symbols: RegExp) => value !== '' && (value.match(symbols));
 
   const [formState, setFormState] = useState<FormStateProps>({
     email: {
       value: '',
       error: false,
-      errorText: 'Not valid email',
+      errorText: 'The email cannot be empty and must contain the @ sign and the domain name',
       regex: EMAIL_VALID_SYMBOLS,
     },
     password: {
       value: '',
       error: false,
-      errorText: 'Not valid password',
+      errorText: 'The password cannot be empty and must contain at least one digit and one letter',
       regex: PASSWORD_VALID_SYMBOLS,
     },
   });
 
-  const onSubmit = (authData: AuthData) => {
-    dispatch(loginAction(authData));
-  };
+  const isValidField = (value: string, symbols: RegExp) => value !== '' && (value.match(symbols));
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    onSubmit({
+    const authData = {
       login: formState.email.value,
       password: formState.password.value,
-    });
+    };
+
+    dispatch(loginAction(authData));
   };
 
   const handleChange = ({target}: ChangeEvent<HTMLInputElement>) => {
@@ -103,8 +102,9 @@ function Login():JSX.Element {
               onSubmit={handleSubmit}
             >
               {Object.entries(authFormFields).map(([name, label]) => {
-                const isInputError = formState[name].error && styles['form__input--error'];
-                const inputClass = `login__input form__input ${isInputError}`;
+                const inputClass = cn('login__input', 'form__input', {
+                  [styles.inputError]: formState[name].error,
+                });
 
                 return (
                   <div
@@ -126,7 +126,7 @@ function Login():JSX.Element {
                     {
                       formState[name].error &&
                         (
-                          <p className={styles['field-error-message']}>
+                          <p className={styles.errorMessage}>
                             {formState[name].errorText}
                           </p>
                         )
@@ -148,6 +148,7 @@ function Login():JSX.Element {
               <Link
                 to="/"
                 className="locations__item-link"
+                onClick={() => {dispatch(cityChange(randomCity));}}
               >
                 <span>{randomCity}</span>
               </Link>

@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import { useEffect } from 'react';
+import {  useParams } from 'react-router-dom';
 
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';
@@ -9,31 +9,50 @@ import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
 import OffersList from '../../components/offers-list/offers-list';
 
-import {getRatePercent} from '../../utils';
+import {getRatePercent, isAuth} from '../../utils';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { fetchNearbyOffersAction, fetchOfferAction, fetchCommentsAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../../store/api-actions';
 
-function Room():JSX.Element {
+function Room():JSX.Element | null {
   const {id} = useParams();
   const offerId = Number(id);
-  const {nearbyOffers, offer, comments} = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
+  const offer = useAppSelector((state) => state.offer);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const comments = useAppSelector((state) => state.comments);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   useEffect(() => {
-    dispatch(fetchOfferAction(offerId));
-    dispatch(fetchNearbyOffersAction(offerId));
-    dispatch(fetchCommentsAction(offerId));
-  }, [dispatch, offerId]);
+    if (offer === null || offer.id !== offerId) {
+      dispatch(fetchOfferAction(offerId));
+      dispatch(fetchNearbyOffersAction(offerId));
+      dispatch(fetchCommentsAction(offerId));
+    }
+  }, [dispatch, offer, offerId]);
 
-  const [selectedCard, setSelectedCard] = useState<number | undefined>(undefined);
+  if (!offer) {
+    return null;
+  }
 
-  const onListCardHover = (cardId: number | undefined) => {
-    setSelectedCard(cardId);
-  };
+  const {
+    images,
+    title,
+    isFavorite,
+    isPremium,
+    rating,
+    type,
+    bedrooms,
+    maxAdults,
+    price,
+    goods,
+    host,
+    description,
+  } = offer;
 
+  const {name, isPro, avatarUrl} = host;
 
   return (
     <div className="page">
@@ -43,7 +62,7 @@ function Room():JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {offer?.images.map((image) => (
+              {images.map((image) => (
                 <div key={image} className="property__image-wrapper">
                   <img className="property__image" src={image} alt="studio" />
                 </div>
@@ -52,40 +71,40 @@ function Room():JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {offer?.isPremium && <Badge text='Premium' className='property__mark' />}
+              {isPremium && <Badge text='Premium' className='property__mark' />}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {offer?.title}
+                  {title}
                 </h1>
-                <Bookmark isFavorite={offer?.isFavorite} className='property' />
+                <Bookmark isFavorite={isFavorite} className='property' />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${getRatePercent(offer?.rating)}%`}}></span>
+                  <span style={{width: `${getRatePercent(rating)}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{offer?.rating}</span>
+                <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {offer?.type}
+                  {type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {offer?.bedrooms} Bedrooms
+                  {bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {offer?.maxAdults} adults
+                  Max {maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{offer?.price}</b>
+                <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
                   {
-                    offer?.goods.map((item) => (
+                    goods.map((item) => (
                       <li key={item} className="property__inside-item">
                         {item}
                       </li>
@@ -97,29 +116,29 @@ function Room():JSX.Element {
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={offer?.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {offer?.host.name}
+                    {name}
                   </span>
                   <span className="property__user-status">
-                    {offer?.host.isPro}
+                    {isPro}
                   </span>
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    {offer?.description}
+                    {description}
                   </p>
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments?.length}</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
                 <ReviewsList comments={comments} />
-                <ReviewsForm />
+                {isAuth(authorizationStatus) && <ReviewsForm offerId={offerId} />}
               </section>
             </div>
           </div>
-          <Map className="property__map" offers={nearbyOffers} selectedPoint={selectedCard} />
+          <Map className="property__map" offers={[...nearbyOffers, offer]} selectedPoint={offerId} />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -128,7 +147,6 @@ function Room():JSX.Element {
               offers={nearbyOffers}
               className='near'
               isSmall={false}
-              onListCardHover={onListCardHover}
             />
           </section>
         </div>

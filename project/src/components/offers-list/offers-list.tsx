@@ -13,16 +13,16 @@ type PropsType = {
   offers: Offer[];
   className: string;
   isSmall?: boolean;
-  onListCardHover: (id: number | undefined) => void;
+  onListCardHover?: (id: number | undefined) => void;
 }
 
 function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JSX.Element {
   const handleOfferCardMouseEnter = (id: number) => {
-    onListCardHover(id);
+    onListCardHover?.(id);
   };
 
   const handleOfferCardMouseLeave = (id: number | undefined) => {
-    onListCardHover(id);
+    onListCardHover?.(id);
   };
 
   const sortType = useAppSelector((state) => state.sortType);
