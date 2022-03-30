@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';
@@ -14,7 +14,6 @@ import {getRatePercent, isAuth} from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../../store/api-actions';
-
 
 function Room():JSX.Element | null {
   const {id} = useParams();
@@ -149,7 +148,7 @@ function Room():JSX.Element | null {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
                 <ReviewsList comments={comments} />
-                {isAuth(authorizationStatus) && <ReviewsForm />}
+                {isAuth(authorizationStatus) && <ReviewsForm offerId={offerId} />}
               </section>
             </div>
           </div>
