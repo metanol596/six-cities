@@ -108,3 +108,6 @@
   box-sizing: content-box;
 }
 
+.small-spinner {
+  height: 100%;
+}

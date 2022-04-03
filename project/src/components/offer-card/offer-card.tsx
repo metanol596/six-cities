@@ -19,7 +19,16 @@ type PropsType = {
 }
 
 function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLeave, isSmall}: PropsType): JSX.Element {
-  const {previewImage, title, isFavorite, isPremium, rating, type, price, id} = offer;
+  const {
+    previewImage,
+    title,
+    isFavorite,
+    isPremium,
+    rating,
+    type,
+    price,
+    id,
+  } = offer;
 
   const imgWidth = isSmall ? '150' : '260';
   const imgHeight = isSmall ? '110' : '200';

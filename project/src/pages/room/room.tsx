@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import {  useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';
@@ -8,34 +8,60 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
 import OffersList from '../../components/offers-list/offers-list';
+import Spinner from '../../components/spinner/spinner';
+import NotFound from '../not-found/not-found';
 
-import {getRatePercent, isAuth} from '../../utils';
+import {getRatePercent, isAuth, isPending} from '../../utils';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../../store/api-actions';
+import {
+  fetchComments,
+  fetchNearbyOffers,
+  fetchOffer,
+  selectComments,
+  selectNearbyOffers,
+  selectoffer,
+  selectOfferFetchStatus
+} from '../../store/offer-data/offer-data';
+import { selectAuthorizationStatus } from '../../store/user-process/user-process';
+
+import { FetchStatus } from '../../const';
+//import { FetchStatus } from '../../const';
 
 function Room():JSX.Element | null {
   const {id} = useParams();
   const offerId = Number(id);
 
   const dispatch = useAppDispatch();
-  const offer = useAppSelector((state) => state.offer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
-  const comments = useAppSelector((state) => state.comments);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offer = useAppSelector(selectoffer);
+  const offerStatus = useAppSelector(selectOfferFetchStatus);
+  const nearbyOffers = useAppSelector(selectNearbyOffers);
+  const comments = useAppSelector(selectComments);
+
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
   useEffect(() => {
-    if (offer === null || offer.id !== offerId) {
-      dispatch(fetchOfferAction(offerId));
-      dispatch(fetchNearbyOffersAction(offerId));
-      dispatch(fetchCommentsAction(offerId));
-    }
-  }, [dispatch, offer, offerId]);
+    dispatch(fetchOffer(offerId));
+    dispatch(fetchNearbyOffers(offerId));
+    dispatch(fetchComments(offerId));
+  }, [dispatch, offerId]);
 
-  if (!offer) {
+  if (isPending(offerStatus)) {
+    return <Spinner />;
+  }
+
+  if (!offer || !nearbyOffers || !comments) {
     return null;
   }
+
+  if (offerStatus === FetchStatus.Failed) {
+    return <NotFound />;
+  }
+
+  //if (nearbyOffers === undefined || comments === undefined) {
+  //  return null;
+  //}
 
   const {
     images,
@@ -54,6 +80,8 @@ function Room():JSX.Element | null {
 
   const {name, isPro, avatarUrl} = host;
 
+  const slicedImages = images.slice(0, 6);
+
   return (
     <div className="page">
       <Header />
@@ -62,7 +90,7 @@ function Room():JSX.Element | null {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((image) => (
+              {slicedImages.map((image) => (
                 <div key={image} className="property__image-wrapper">
                   <img className="property__image" src={image} alt="studio" />
                 </div>

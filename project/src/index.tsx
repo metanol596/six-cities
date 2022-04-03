@@ -6,11 +6,12 @@ import { ToastContainer } from 'react-toastify';
 import App from './components/app/app';
 
 import { store } from './store';
-import { fetchOffersAction, checkAuthAction } from './store/api-actions';
+import { fetchOffers } from './store/offers-data/offers-data';
+import { checkAuthAction } from './store/user-process/user-process';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-store.dispatch(fetchOffersAction());
+store.dispatch(fetchOffers());
 store.dispatch(checkAuthAction());
 
 ReactDOM.render(

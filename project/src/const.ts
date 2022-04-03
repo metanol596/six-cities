@@ -19,6 +19,13 @@ export enum APIRoute {
   Logout = '/logout',
 }
 
+export enum NameSpace {
+  user = 'USER',
+  offersData = 'OFFERS_DATA',
+  offersProcess = 'OFFERS_PROCESS',
+  offerData = 'OFFER_DATA',
+}
+
 export const CITIES = [
   'Paris',
   'Cologne',
@@ -51,7 +58,7 @@ export const enum HTTPCode {
 
 export const enum FetchStatus {
   Idle = 'IDLE',
-  Pending = 'PENDING',
-  Success = 'SUCCESS',
+  Pending = 'LOADING',
+  Success = 'SUCCEEDED',
   Failed = 'FAILED',
 }

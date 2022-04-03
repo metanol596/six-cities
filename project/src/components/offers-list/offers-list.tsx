@@ -5,6 +5,8 @@ import { SortList } from '../../const';
 
 import { useAppSelector } from '../../hooks';
 
+import { selectSortType } from '../../store/offers-process/offers-process';
+
 import { Offer } from '../../types/offer';
 
 import { sortOffers } from '../../utils';
@@ -25,7 +27,7 @@ function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JS
     onListCardHover?.(id);
   };
 
-  const sortType = useAppSelector((state) => state.sortType);
+  const sortType = useAppSelector(selectSortType);
 
   const sortedOffers = sortOffers(offers, SortList, sortType);
 

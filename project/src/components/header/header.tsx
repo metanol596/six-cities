@@ -1,17 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import { AppRoute } from '../../const';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { logoutAction } from '../../store/api-actions';
+import { logoutAction, selectAuthorizationStatus, selectUser } from '../../store/user-process/user-process';
 
 import { isAuth } from '../../utils';
 
 function Header(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const user = useAppSelector((state) => state.user);
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const user = useAppSelector(selectUser);
+
   const dispatch = useAppDispatch();
+
+  if (user === undefined) {
+    return <Navigate to={AppRoute.Login} />;
+  }
 
   const {avatarUrl, email} = user;
 

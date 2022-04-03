@@ -3,7 +3,10 @@ import { useState } from 'react';
 import SortItem from '../sort-item/sort-item';
 
 import { SortList } from '../../const';
+
 import { useAppSelector } from '../../hooks';
+
+import { selectSortType } from '../../store/offers-process/offers-process';
 
 function Sorts(): JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -12,7 +15,7 @@ function Sorts(): JSX.Element {
     setVisible(!visible);
   };
 
-  const sortType = useAppSelector((state) => state.sortType);
+  const sortType = useAppSelector(selectSortType);
 
   return (
     <form className="places__sorting" action="#" method="get">

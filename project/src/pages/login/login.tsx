@@ -11,9 +11,8 @@ import { getRandomArrayElement } from '../../utils';
 
 import { useAppDispatch } from '../../hooks';
 
-import { loginAction } from '../../store/api-actions';
-import { cityChange } from '../../store/action';
-
+import { cityChange } from '../../store/offers-data/offers-data';
+import { loginAction } from '../../store/user-process/user-process';
 
 import styles from './login.module.css';
 

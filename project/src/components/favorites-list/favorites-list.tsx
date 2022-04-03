@@ -4,6 +4,8 @@ import { useAppSelector } from '../../hooks';
 
 import { Offer } from '../../types/offer';
 
+import { selectOffers } from '../../store/offers-data/offers-data';
+
 type PropsType = {
   className: string;
 }
@@ -18,7 +20,7 @@ const transformOffers = (offers: Offer[]) => offers.reduce<{[key: string]: Offer
 }, {});
 
 function FavoritesList({className}: PropsType): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(selectOffers);
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const groupedOffers = transformOffers(favoriteOffers);
 
