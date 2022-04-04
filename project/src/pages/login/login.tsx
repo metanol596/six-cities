@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
 import Header from '../../components/header/header';
-//import Spinner from '../../components/spinner/spinner';
 
 import { CITIES } from '../../const';
 
@@ -12,7 +11,8 @@ import { getRandomArrayElement } from '../../utils';
 import { useAppDispatch } from '../../hooks';
 
 import { cityChange } from '../../store/offers-data/offers-data';
-import { loginAction } from '../../store/user-process/user-process';
+
+import { loginAction } from '../../store/api-actions';
 
 import styles from './login.module.css';
 
@@ -61,7 +61,7 @@ function Login():JSX.Element {
     evt.preventDefault();
 
     const authData = {
-      login: formState.email.value,
+      email: formState.email.value,
       password: formState.password.value,
     };
 

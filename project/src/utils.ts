@@ -1,4 +1,4 @@
-import { AuthorizationStatus, FetchStatus } from './const';
+import { AuthorizationStatus } from './const';
 
 import { Offer } from './types/offer';
 
@@ -35,6 +35,3 @@ export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean
 
 export const isAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Auth;
-
-export const isPending = (fetchStatus: FetchStatus): boolean =>
-  fetchStatus === FetchStatus.Pending;

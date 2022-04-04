@@ -6,10 +6,12 @@ import { State } from '../../types/state';
 
 type OffersProcess = {
   sortType: string;
+  offerFavoriteStatus: boolean;
 }
 
 const initialState: OffersProcess = {
   sortType: SortList.POPULAR,
+  offerFavoriteStatus: false,
 };
 
 export const offersProcess = createSlice({
@@ -19,10 +21,13 @@ export const offersProcess = createSlice({
     sortChange: (state, action) => {
       state.sortType = action.payload;
     },
+    toggleFavoriteStatus: (state, action) => {
+      state.offerFavoriteStatus = action.payload.isFavorite;
+    },
   },
 });
 
-export const {sortChange} = offersProcess.actions;
+export const {sortChange, toggleFavoriteStatus} = offersProcess.actions;
 
 const selectOffersProcessState = (state: State) => state[NameSpace.offersProcess];
 

@@ -5,12 +5,12 @@ import Map from '../../components/map/map';
 import Spinner from '../../components/spinner/spinner';
 import OffersList from '../../components/offers-list/offers-list';
 
-import { isCheckedAuth, isPending } from '../../utils';
+import { isCheckedAuth } from '../../utils';
 
 import { useAppSelector } from '../../hooks';
 
 import { selectAuthorizationStatus } from '../../store/user-process/user-process';
-import { selectCity, selectOffersFetchStatus } from '../../store/offers-data/offers-data';
+import { selectCity, selectOffersStatus } from '../../store/offers-data/offers-data';
 
 import { Offer } from '../../types/offer';
 
@@ -28,14 +28,14 @@ function MainFull({offers}: PropsType) {
   };
 
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
-  const fetchOffersStatus = useAppSelector(selectOffersFetchStatus);
+  const isDataLoaded = useAppSelector(selectOffersStatus);
   const currentCity = useAppSelector(selectCity);
   const filteredOffers = offers.filter(({city}) => city.name === currentCity);
 
   return (
     <div className="cities">
       {
-        (isCheckedAuth(authorizationStatus) || isPending(fetchOffersStatus)) ? <Spinner />
+        (isCheckedAuth(authorizationStatus) || !isDataLoaded) ? <Spinner />
           : (
             <div className={`cities__places-container container ${styles.citiesPlacesContainer}`}>
               <section className="cities__places places">

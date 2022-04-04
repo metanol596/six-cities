@@ -9,25 +9,19 @@ import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
 import OffersList from '../../components/offers-list/offers-list';
 import Spinner from '../../components/spinner/spinner';
-import NotFound from '../not-found/not-found';
 
-import {getRatePercent, isAuth, isPending} from '../../utils';
+import {getRatePercent, isAuth} from '../../utils';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import {
-  fetchComments,
-  fetchNearbyOffers,
-  fetchOffer,
   selectComments,
   selectNearbyOffers,
-  selectoffer,
-  selectOfferFetchStatus
+  selectoffer
 } from '../../store/offer-data/offer-data';
 import { selectAuthorizationStatus } from '../../store/user-process/user-process';
 
-import { FetchStatus } from '../../const';
-//import { FetchStatus } from '../../const';
+import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../../store/api-actions';
 
 function Room():JSX.Element | null {
   const {id} = useParams();
@@ -35,33 +29,24 @@ function Room():JSX.Element | null {
 
   const dispatch = useAppDispatch();
   const offer = useAppSelector(selectoffer);
-  const offerStatus = useAppSelector(selectOfferFetchStatus);
   const nearbyOffers = useAppSelector(selectNearbyOffers);
   const comments = useAppSelector(selectComments);
 
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
   useEffect(() => {
-    dispatch(fetchOffer(offerId));
-    dispatch(fetchNearbyOffers(offerId));
-    dispatch(fetchComments(offerId));
+    dispatch(fetchOfferAction(offerId));
+    dispatch(fetchNearbyOffersAction(offerId));
+    dispatch(fetchCommentsAction(offerId));
   }, [dispatch, offerId]);
 
-  if (isPending(offerStatus)) {
+  if (!offer) {
     return <Spinner />;
   }
 
   if (!offer || !nearbyOffers || !comments) {
     return null;
   }
-
-  if (offerStatus === FetchStatus.Failed) {
-    return <NotFound />;
-  }
-
-  //if (nearbyOffers === undefined || comments === undefined) {
-  //  return null;
-  //}
 
   const {
     images,

@@ -1,16 +1,13 @@
 import Header from '../../components/header/header';
-import FavoritesFull from './favorites-full';
 import FavoritesEmpty from './favorites-empty';
 
 function Favorites():JSX.Element {
-  const isFavoritesEmpty = 1; // не придумал условие
-
   return (
     <div className="page">
       <Header />
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          {isFavoritesEmpty ? <FavoritesEmpty /> : <FavoritesFull />}
+          <FavoritesEmpty />
         </div>
       </main>
       <footer className="footer container">
