@@ -35,3 +35,11 @@ export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean
 
 export const isAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Auth;
+
+export const toUpperCaseFirstChar = (str: string) => {
+  if (!str) {
+    return str;
+  }
+
+  return str[0].toUpperCase() + str.slice(1);
+};

@@ -6,7 +6,7 @@ import Badge from '../badge/badge';
 
 import { AppRoute } from '../../const';
 
-import { getRatePercent } from '../../utils';
+import { getRatePercent, toUpperCaseFirstChar } from '../../utils';
 
 import { Offer } from '../../types/offer';
 
@@ -29,6 +29,10 @@ function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLea
     price,
     id,
   } = offer;
+
+  const roundedRating = Math.round(rating);
+
+  const newType = toUpperCaseFirstChar(type);
 
   const imgWidth = isSmall ? '150' : '260';
   const imgHeight = isSmall ? '110' : '200';
@@ -75,14 +79,14 @@ function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLea
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${getRatePercent(rating)}%`}}></span>
+            <span style={{width: `${getRatePercent(roundedRating)}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to={generatePath(AppRoute.Offer, {id: `${id}`})}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{newType}</p>
       </div>
     </article>
   );
