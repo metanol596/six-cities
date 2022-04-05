@@ -5,12 +5,17 @@ import Rating from '../rating/rating';
 
 import { useAppDispatch } from '../../hooks';
 
-import { fetchCommentAction } from '../../store/api-actions';
+import { postCommentAction } from '../../store/api-actions';
 
 import { NewComment } from '../../types/comment';
 
 const MAX_REVIEW_LENGTH = 300;
 const MIN_REVIEW_LENGTH = 50;
+
+const cleanedReviewsForm = {
+  review: '',
+  rating: '',
+};
 
 type PropsType = {
   offerId: number;
@@ -18,8 +23,7 @@ type PropsType = {
 
 function ReviewsForm({offerId}: PropsType): JSX.Element {
   const [formData, setFormData] = useState<{[key: string]: string}>({
-    review: '',
-    rating: '',
+    ...cleanedReviewsForm,
   });
 
   const dispatch = useAppDispatch();
@@ -39,13 +43,15 @@ function ReviewsForm({offerId}: PropsType): JSX.Element {
       id: offerId,
     };
 
-    dispatch(fetchCommentAction(commentData))
-      .then(() => setFormData({
-        ...formData,
-        review: '',
-        rating: '',
-      }))
-      .catch(() => toast.info('Comment not sended. Please, try again later'));
+    const resetReviewsForm = () => setFormData({
+      ...cleanedReviewsForm,
+    });
+
+    dispatch(postCommentAction({
+      newComment: commentData,
+      onSuccess: resetReviewsForm,
+      onError: () => toast.info('Comment not sended. Please, try again later'),
+    }));
   };
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

@@ -23,6 +23,8 @@ import { loadOffers } from './offers-data/offers-data';
 
 import { handleError } from '../services/handle-error';
 import { saveToken, dropToken } from '../services/token';
+import { deleteUser, setUser } from '../services/user';
+
 import { toggleFavoriteStatus } from './offers-process/offers-process';
 
 export const fetchOffersAction = createAsyncThunk(
@@ -46,6 +48,7 @@ export const fetchOfferAction = createAsyncThunk(
       store.dispatch(loadOffer(data));
     } catch (error) {
       handleError(error);
+      store.dispatch(redirectToRoute(AppRoute.NotFound));
       throw error;
     }
   },
@@ -75,14 +78,25 @@ export const fetchCommentsAction = createAsyncThunk(
   },
 );
 
-export const fetchCommentAction = createAsyncThunk(
-  'data/fetchComment',
-  async (newComment: NewComment) => {
+type PostCommentActionType = {
+  newComment: NewComment;
+  onSuccess: () => void;
+  onError: () => void;
+}
+
+export const postCommentAction = createAsyncThunk(
+  'data/postComment',
+  async ({newComment, onSuccess, onError}: PostCommentActionType) => {
     try {
-      await api.post<NewComment>(`${APIRoute.Comments}/${newComment.id}`, newComment.review);
-      store.dispatch(fetchCommentsAction(newComment.id));
+      const {data} = await api.post<NewComment>(`${APIRoute.Comments}/${newComment.id}`, newComment.review);
+      store.dispatch(loadComments(data));
+      onSuccess();
     } catch (error) {
-      handleError(error);
+      if (onError) {
+        onError();
+      } else {
+        handleError(error, () => store.dispatch(redirectToRoute(AppRoute.NotFound)));
+      }
     }
   },
 );
@@ -104,10 +118,11 @@ export const loginAction = createAsyncThunk(
   'user/login',
   async ({email, password}: AuthData) => {
     try {
-      const res = await api.post<UserData>(APIRoute.Login, {email, password});
-      saveToken(res.data.token);
+      const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+      saveToken(data.token);
+      setUser(data);
       store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      store.dispatch(login(res.data));
+      store.dispatch(login(data));
       store.dispatch(redirectToRoute(AppRoute.Main));
     } catch (error) {
       handleError(error);
@@ -122,6 +137,7 @@ export const logoutAction = createAsyncThunk(
     try {
       await api.delete(APIRoute.Logout);
       dropToken();
+      deleteUser();
       store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch (error) {
       handleError(error);

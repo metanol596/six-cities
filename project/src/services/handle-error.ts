@@ -3,11 +3,9 @@ import {toast} from 'react-toastify';
 
 import { ErrorType } from '../types/error';
 
-import { AppRoute, HTTPCode } from '../const';
-import { store } from '../store';
-import { redirectToRoute } from '../store/action';
+import { HTTPCode } from '../const';
 
-export const handleError = (error: ErrorType) => {
+export const handleError = (error: ErrorType, cb?: () => void) => {
   if (!request.isAxiosError(error)) {
     throw error;
   }
@@ -24,7 +22,7 @@ export const handleError = (error: ErrorType) => {
         break;
       case HTTPCode.NotFound:
         toast.info(response.data.error);
-        store.dispatch(redirectToRoute(AppRoute.NotFound));
+        cb?.();
         break;
       default:
         toast.info(`'Unknown error': ${response.data.error}`);
