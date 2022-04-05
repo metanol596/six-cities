@@ -4,19 +4,20 @@ import { AppRoute } from '../../const';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { selectAuthorizationStatus, selectUser } from '../../store/user-process/user-process';
+import { selectAuthorizationStatus } from '../../store/user-process/user-process';
 
 import { logoutAction } from '../../store/api-actions';
+
+import { getUser } from '../../services/user';
 
 import { isAuth } from '../../utils';
 
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
-  const user = useAppSelector(selectUser);
 
   const dispatch = useAppDispatch();
 
-  const {avatarUrl, email} = user;
+  const {avatarUrl, email} = getUser();
 
   const DEFAULT_AVATAR_URL = '../img/avatar.svg';
   const currentAvatarUrl = isAuth(authorizationStatus) ? avatarUrl : DEFAULT_AVATAR_URL;
