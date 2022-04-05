@@ -10,7 +10,11 @@ import Bookmark from '../../components/bookmark/bookmark';
 import OffersList from '../../components/offers-list/offers-list';
 import Spinner from '../../components/spinner/spinner';
 
-import {getRatePercent, isAuth} from '../../utils';
+import {
+  getRatePercent,
+  isAuth,
+  toUpperCaseFirstChar
+} from '../../utils';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
@@ -19,9 +23,14 @@ import {
   selectNearbyOffers,
   selectoffer
 } from '../../store/offer-data/offer-data';
+
 import { selectAuthorizationStatus } from '../../store/user-process/user-process';
 
-import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../../store/api-actions';
+import {
+  fetchCommentsAction,
+  fetchNearbyOffersAction,
+  fetchOfferAction
+} from '../../store/api-actions';
 
 function Room():JSX.Element | null {
   const {id} = useParams();
@@ -63,6 +72,8 @@ function Room():JSX.Element | null {
     description,
   } = offer;
 
+  const newType = toUpperCaseFirstChar(type);
+
   const {name, isPro, avatarUrl} = host;
 
   const slicedImages = images.slice(0, 6);
@@ -100,7 +111,7 @@ function Room():JSX.Element | null {
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {type}
+                  {newType}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
                   {bedrooms} Bedrooms
