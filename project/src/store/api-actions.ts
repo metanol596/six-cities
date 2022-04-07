@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { Offer } from '../types/offer';
-import { NewComment } from '../types/comment';
+import { NewComment, PostCommentActionType } from '../types/comment';
 import { OfferFavoriteStatus } from '../types/favorites';
 
 import {
@@ -18,14 +18,19 @@ import { login, requireAuthorization } from './user-process/user-process';
 
 import { api, store } from '../store/index';
 
-import { loadComments, loadNearbyOffers, loadOffer } from './offer-data/offer-data';
-import { loadOffers } from './offers-data/offers-data';
+import { loadComments } from './offer-data/offer-data';
+import {
+  loadOffers,
+  loadNearbyOffers,
+  loadOffer,
+  updateFavorites
+} from './offers-process/offers-process';
 
 import { handleError } from '../services/handle-error';
 import { saveToken, dropToken } from '../services/token';
 import { deleteUser, setUser } from '../services/user';
 
-import { toggleFavoriteStatus } from './offers-process/offers-process';
+import { loadFavoritesOffers } from './offers-process/offers-process';
 
 export const fetchOffersAction = createAsyncThunk(
   'data/fetchOffers',
@@ -77,12 +82,6 @@ export const fetchCommentsAction = createAsyncThunk(
     }
   },
 );
-
-type PostCommentActionType = {
-  newComment: NewComment;
-  onSuccess: () => void;
-  onError: () => void;
-}
 
 export const postCommentAction = createAsyncThunk(
   'data/postComment',
@@ -139,9 +138,22 @@ export const logoutAction = createAsyncThunk(
       dropToken();
       deleteUser();
       store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      store.dispatch(fetchOffersAction());
     } catch (error) {
       handleError(error);
       store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    }
+  },
+);
+
+export const fetchFavoritesOffers = createAsyncThunk(
+  'data/fetchFavoritesOffers',
+  async () => {
+    try {
+      const {data} = await api.get<Offer[]>(APIRoute.Favorite);
+      store.dispatch(loadFavoritesOffers(data));
+    } catch (error) {
+      handleError(error);
     }
   },
 );
@@ -150,8 +162,8 @@ export const toggleFavoriteStatusAction = createAsyncThunk(
   'data/toggleFavoriteStatus',
   async (offerFavoriteStatus: OfferFavoriteStatus) => {
     try {
-      const {data: {isFavorite}} = await api.post<Offer>(`${APIRoute.Favorite}/${offerFavoriteStatus.id}/${offerFavoriteStatus.status}`, offerFavoriteStatus);
-      store.dispatch(toggleFavoriteStatus(isFavorite));
+      const {data} = await api.post<Offer>(`${APIRoute.Favorite}/${offerFavoriteStatus.id}/${offerFavoriteStatus.status}`);
+      store.dispatch(updateFavorites(data));
     } catch (error) {
       handleError(error);
     }

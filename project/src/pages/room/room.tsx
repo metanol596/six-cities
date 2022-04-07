@@ -18,11 +18,8 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import {
-  selectComments,
-  selectNearbyOffers,
-  selectoffer
-} from '../../store/offer-data/offer-data';
+import { selectNearbyOffers, selectOffer } from '../../store/offers-process/offers-process';
+import { selectComments } from '../../store/offer-data/offer-data';
 
 import { selectAuthorizationStatus } from '../../store/user-process/user-process';
 
@@ -37,7 +34,7 @@ function Room():JSX.Element | null {
   const offerId = Number(id);
 
   const dispatch = useAppDispatch();
-  const offer = useAppSelector(selectoffer);
+  const offer = useAppSelector(selectOffer);
   const nearbyOffers = useAppSelector(selectNearbyOffers);
   const comments = useAppSelector(selectComments);
 
@@ -100,7 +97,7 @@ function Room():JSX.Element | null {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <Bookmark isFavorite={isFavorite} className='property' />
+                <Bookmark id={offerId} isFavorite={isFavorite} className='property' />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -140,7 +137,13 @@ function Room():JSX.Element | null {
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img
+                      className="property__avatar user__avatar"
+                      src={avatarUrl}
+                      width="74"
+                      height="74"
+                      alt="Host avatar"
+                    />
                   </div>
                   <span className="property__user-name">
                     {name}
@@ -156,13 +159,20 @@ function Room():JSX.Element | null {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+                <h2 className="reviews__title">
+                  Reviews &middot;{' '}
+                  <span className="reviews__amount">{comments.length}</span>
+                </h2>
                 <ReviewsList comments={comments} />
                 {isAuth(authorizationStatus) && <ReviewsForm offerId={offerId} />}
               </section>
             </div>
           </div>
-          <Map className="property__map" offers={[...nearbyOffers, offer]} selectedPoint={offerId} />
+          <Map
+            className="property__map"
+            offers={[...nearbyOffers, offer]}
+            selectedPoint={offerId}
+          />
         </section>
         <div className="container">
           <section className="near-places places">

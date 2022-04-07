@@ -10,16 +10,11 @@ import PrivateRoute from '../../hocs/private-route/private-route';
 
 import { AppRoute } from '../../const';
 
-import { useAppSelector } from '../../hooks';
 
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
-import { selectAuthorizationStatus } from '../../store/user-process/user-process';
-
 function App(): JSX.Element {
-  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
-
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
@@ -32,7 +27,7 @@ function App(): JSX.Element {
           element={<Login />}
         />
         <Route path={AppRoute.Favorites} element={
-          <PrivateRoute authorizationStatus={authorizationStatus}>
+          <PrivateRoute>
             <Favorites />
           </PrivateRoute>
         }

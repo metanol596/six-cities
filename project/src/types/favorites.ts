@@ -1,4 +1,4 @@
 export type OfferFavoriteStatus = {
   id: number;
-  status: boolean;
+  status: number;
 }

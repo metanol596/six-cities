@@ -20,3 +20,9 @@ export type NewComment = {
   },
   id: number;
 }
+
+export type PostCommentActionType = {
+  newComment: NewComment;
+  onSuccess: () => void;
+  onError: () => void;
+}

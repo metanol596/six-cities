@@ -6,7 +6,7 @@ import Spinner from '../../components/spinner/spinner';
 
 import { useAppSelector } from '../../hooks';
 
-import { selectOffers, selectOffersStatus } from '../../store/offers-data/offers-data';
+import { selectOffers, selectOffersStatus } from '../../store/offers-process/offers-process';
 import { selectAuthorizationStatus } from '../../store/user-process/user-process';
 
 import { isCheckedAuth } from '../../utils';

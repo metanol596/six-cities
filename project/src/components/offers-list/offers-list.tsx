@@ -29,7 +29,9 @@ function OffersList({offers, className, isSmall, onListCardHover}: PropsType):JS
 
   const sortType = useAppSelector(selectSortType);
 
-  const sortedOffers = sortOffers(offers, SortList, sortType);
+  const offersForSort = [...offers];
+
+  const sortedOffers = sortOffers(offersForSort, SortList, sortType);
 
   return (
     <div className={cn('places__list', {
