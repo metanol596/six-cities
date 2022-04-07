@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { sortChange } from '../../store/action';
+import { selectSortType, sortChange } from '../../store/offers-process/offers-process';
 
 type PropsType = {
   sortType: string;
@@ -8,7 +8,7 @@ type PropsType = {
 }
 
 function SortItem({sortType, toggleSortBlock}: PropsType): JSX.Element {
-  const currentSort = useAppSelector((state) => state.sortType);
+  const currentSort = useAppSelector(selectSortType);
 
   const dispatch = useAppDispatch();
 

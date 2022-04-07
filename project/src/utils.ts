@@ -1,4 +1,4 @@
-import { AuthorizationStatus, FetchStatus } from './const';
+import { AuthorizationStatus } from './const';
 
 import { Offer } from './types/offer';
 
@@ -33,8 +33,13 @@ export const sortOffers = (offers: Offer[], sortsList: {[key: string]: string}, 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
 
-export const isCheckedPending = (fetchStatus: FetchStatus): boolean =>
-  fetchStatus === FetchStatus.Idle || fetchStatus === FetchStatus.Pending;
-
 export const isAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Auth;
+
+export const toUpperCaseFirstChar = (str: string) => {
+  if (!str) {
+    return str;
+  }
+
+  return str[0].toUpperCase() + str.slice(1);
+};

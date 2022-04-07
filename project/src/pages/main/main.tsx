@@ -1,30 +1,26 @@
-import { useState } from 'react';
-
 import Header from '../../components/header/header';
-import OffersList from '../../components/offers-list/offers-list';
 import Locations from '../../components/locations/locations';
-import Sort from '../../components/sorts/sorts';
-import Map from '../../components/map/map';
+import MainFull from './main-full';
+import MainEmpty from './main-empty';
 import Spinner from '../../components/spinner/spinner';
 
 import { useAppSelector } from '../../hooks';
 
+import { selectOffers, selectOffersStatus } from '../../store/offers-process/offers-process';
+import { selectAuthorizationStatus } from '../../store/user-process/user-process';
+
 import { isCheckedAuth } from '../../utils';
 
-import styles from './main.module.css';
-
 function Main(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
-  const filteredOffers = offers.filter(({city}) => city.name === currentCity);
+  const offers = useAppSelector(selectOffers);
+  const isDataLoaded = useAppSelector(selectOffersStatus);
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
-  const [selectedCard, setSelectedCard] = useState<number | undefined>(undefined);
+  const isOffers = offers.length === 0;
 
-  const onListCardHover = (id: number | undefined) => {
-    setSelectedCard(id);
-  };
-
-  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
+  if (!isDataLoaded || isCheckedAuth(authorizationStatus)) {
+    return <Spinner />;
+  }
 
   return (
     <>
@@ -33,33 +29,7 @@ function Main(): JSX.Element {
       <div className="tabs">
         <Locations />
       </div>
-      <div className="cities">
-        {
-          (isCheckedAuth(authorizationStatus) || !isDataLoaded) ? <Spinner />
-            : (
-              <div className={`cities__places-container container ${styles.citiesPlacesContainer}`}>
-                <section className="cities__places places">
-                  <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{filteredOffers.length} places to stay in {currentCity}</b>
-                  <Sort />
-                  <OffersList
-                    offers={filteredOffers}
-                    className="cities"
-                    isSmall={false}
-                    onListCardHover={onListCardHover}
-                  />
-                </section>
-                <div className="cities__right-section">
-                  <Map
-                    className="cities__map"
-                    offers={filteredOffers}
-                    selectedPoint={selectedCard}
-                  />
-                </div>
-              </div>
-            )
-        }
-      </div>
+      {isOffers ? <MainEmpty /> : <MainFull offers={offers} />}
     </>
   );
 }

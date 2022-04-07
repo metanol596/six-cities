@@ -1,18 +1,44 @@
+import { useEffect } from 'react';
+
 import Header from '../../components/header/header';
-import FavoritesList from '../../components/favorites-list/favorites-list';
+import FavoritesEmpty from './favorites-empty';
+import FavoritesFull from './favorites-full';
+import Spinner from '../../components/spinner/spinner';
+
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
+import { selectFavoritesOffers, selectFavoritesOffersStatus } from '../../store/offers-process/offers-process';
+
+import { fetchFavoritesOffers } from '../../store/api-actions';
 
 function Favorites():JSX.Element {
+  const dispatch = useAppDispatch();
+  const favoritesOffers = useAppSelector(selectFavoritesOffers);
+  const isFavoritesOffersLoaded = useAppSelector(selectFavoritesOffersStatus);
+
+  const isFavoritesOffers = favoritesOffers.length === 0;
+
+  useEffect(() => {
+    dispatch(fetchFavoritesOffers());
+  }, [dispatch]);
+
+  if (!isFavoritesOffersLoaded) {
+    return <Spinner />;
+  }
+
   return (
     <div className="page">
       <Header />
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList className="favorites" />
-          </section>
+          {isFavoritesOffers ? <FavoritesEmpty /> : <FavoritesFull favoritesOffers={favoritesOffers} />}
         </div>
       </main>
+      <footer className="footer container">
+        <a className="footer__logo-link" href="main.html">
+          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
+        </a>
+      </footer>
     </div>
   );
 }

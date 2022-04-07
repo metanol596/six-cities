@@ -11,8 +11,8 @@ function NotFound(): JSX.Element {
     <>
       <Header />
       <section className={styles.notFound}>
-        <p className={styles.notFoundText}>404. Page not found</p>
-        <Link className={styles.notFoundLink} to={AppRoute.Main}>Вернуться на главную</Link>
+        <p className={styles.notFoundText}>Page not found</p>
+        <Link className={styles.notFoundLink} to={AppRoute.Main}>To the main page</Link>
       </section>
     </>
   );

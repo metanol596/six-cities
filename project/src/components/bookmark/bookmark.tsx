@@ -1,19 +1,49 @@
 import cn from 'classnames';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { AppRoute } from '../../const';
+
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
+import {  toggleFavoriteStatusAction } from '../../store/api-actions';
+
+import { selectAuthorizationStatus } from '../../store/user-process/user-process';
+
+import { isAuth } from '../../utils';
 
 type PropsType = {
+  id: number;
   isFavorite: boolean | undefined;
   className: string;
 }
 
-function Bookmark({isFavorite, className}: PropsType): JSX.Element {
+function Bookmark({id, isFavorite, className}: PropsType): JSX.Element {
+  const navigate = useNavigate();
+  const [isFavoriteState, setFavoriteState] = useState(isFavorite);
+
+  const toggleFavoriteState = () => {
+    setFavoriteState(!isFavoriteState);
+  };
+
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+
   const iconWidth = className === 'place-card' ? '18' : '31';
   const iconHeight = className === 'place-card' ? '19' : '33';
 
   return (
-    <button className={cn(`${className}__bookmark-button`, 'button', {
-      'place-card__bookmark-button--active': isFavorite && className === 'place-card',
-      'property__bookmark-button--active' : isFavorite && className === 'property',
-    })} type="button"
+    <button
+      className={`${className}__bookmark-button button ${isFavoriteState && `${className}__bookmark-button--active`}`}
+      type="button"
+      onClick={() => {
+        if (!isAuth(authorizationStatus)) {
+          navigate(AppRoute.Login);
+        }
+
+        dispatch(toggleFavoriteStatusAction({id, status: Number(!isFavoriteState)}));
+        toggleFavoriteState();
+      }}
     >
       <svg
         className={
@@ -27,7 +57,7 @@ function Bookmark({isFavorite, className}: PropsType): JSX.Element {
       >
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
-      <span className="visually-hidden">{isFavorite ? 'In' : 'To'} bookmarks</span>
+      <span className="visually-hidden">{isFavoriteState ? 'In' : 'To'} bookmarks</span>
     </button>
   );
 }

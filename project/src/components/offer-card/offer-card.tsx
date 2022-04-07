@@ -6,7 +6,7 @@ import Badge from '../badge/badge';
 
 import { AppRoute } from '../../const';
 
-import { getRatePercent } from '../../utils';
+import { getRatePercent, toUpperCaseFirstChar } from '../../utils';
 
 import { Offer } from '../../types/offer';
 
@@ -19,7 +19,20 @@ type PropsType = {
 }
 
 function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLeave, isSmall}: PropsType): JSX.Element {
-  const {previewImage, title, isFavorite, isPremium, rating, type, price, id} = offer;
+  const {
+    previewImage,
+    title,
+    isFavorite,
+    isPremium,
+    rating,
+    type,
+    price,
+    id,
+  } = offer;
+
+  const roundedRating = Math.round(rating);
+
+  const newType = toUpperCaseFirstChar(type);
 
   const imgWidth = isSmall ? '150' : '260';
   const imgHeight = isSmall ? '110' : '200';
@@ -62,18 +75,18 @@ function OfferCard({offer, className, onOfferCardMouseEnter, onOfferCardMouseLea
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <Bookmark isFavorite={isFavorite} className='place-card' />
+          <Bookmark id={id} isFavorite={isFavorite} className='place-card' />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${getRatePercent(rating)}%`}}></span>
+            <span style={{width: `${getRatePercent(roundedRating)}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to={generatePath(AppRoute.Offer, {id: `${id}`})}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{newType}</p>
       </div>
     </article>
   );
