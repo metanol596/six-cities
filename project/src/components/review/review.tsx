@@ -41,7 +41,7 @@ function Review({commentItem}: PropsType):JSX.Element {
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime={dateAttributeArgument}>{day} {month} {year}</time>
+        <time className="reviews__time" dateTime={dateAttributeArgument}>{month} {year}</time>
       </div>
     </li>
   );

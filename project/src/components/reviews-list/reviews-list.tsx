@@ -7,10 +7,12 @@ type PropsType = {
 }
 
 function ReviewsList({comments}: PropsType): JSX.Element {
+  const commentsForReverse = [...comments];
+
   return (
     <ul className="reviews__list">
       {
-        comments.map((comment) => (
+        commentsForReverse.reverse().map((comment) => (
           <Review
             key={comment.id}
             commentItem={comment}
