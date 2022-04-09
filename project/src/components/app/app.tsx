@@ -11,12 +11,12 @@ import PrivateRoute from '../../hocs/private-route/private-route';
 import { AppRoute } from '../../const';
 
 
-import HistoryRouter from '../history-route/history-route';
+import HistoryRoute from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
 function App(): JSX.Element {
   return (
-    <HistoryRouter history={browserHistory}>
+    <HistoryRoute history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -41,7 +41,7 @@ function App(): JSX.Element {
         <Route path="offer" element={<Main />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </HistoryRouter>
+    </HistoryRoute>
   );
 }
 

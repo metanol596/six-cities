@@ -12,7 +12,7 @@ import Spinner from '../../components/spinner/spinner';
 
 import {
   getRatePercent,
-  isAuth,
+  checkAuthorizatrion,
   toUpperCaseFirstChar
 } from '../../utils';
 
@@ -164,7 +164,7 @@ function Room():JSX.Element | null {
                   <span className="reviews__amount">{comments.length}</span>
                 </h2>
                 <ReviewsList comments={comments} />
-                {isAuth(authorizationStatus) && <ReviewsForm offerId={offerId} />}
+                {checkAuthorizatrion(authorizationStatus) && <ReviewsForm offerId={offerId} />}
               </section>
             </div>
           </div>

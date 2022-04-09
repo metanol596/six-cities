@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-//import { updateOffersData } from '../../utils';
-
 import { NameSpace, SortList } from '../../const';
 
 import { State } from '../../types/state';

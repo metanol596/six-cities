@@ -33,7 +33,7 @@ export const sortOffers = (offers: Offer[], sortsList: {[key: string]: string}, 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
 
-export const isAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+export const checkAuthorizatrion = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Auth;
 
 export const toUpperCaseFirstChar = (str: string) => {

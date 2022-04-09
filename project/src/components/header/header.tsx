@@ -10,7 +10,7 @@ import { logoutAction } from '../../store/api-actions';
 
 import { getUser } from '../../services/user';
 
-import { isAuth } from '../../utils';
+import { checkAuthorizatrion } from '../../utils';
 
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
@@ -20,7 +20,7 @@ function Header(): JSX.Element {
   const {avatarUrl, email} = getUser();
 
   const DEFAULT_AVATAR_URL = '../img/avatar.svg';
-  const currentAvatarUrl = isAuth(authorizationStatus) ? avatarUrl : DEFAULT_AVATAR_URL;
+  const currentAvatarUrl = checkAuthorizatrion(authorizationStatus) ? avatarUrl : DEFAULT_AVATAR_URL;
 
   return (
     <header className="header">
@@ -56,14 +56,14 @@ function Header(): JSX.Element {
                   >
                   </div>
                   {
-                    isAuth(authorizationStatus) ?
+                    checkAuthorizatrion(authorizationStatus) ?
                       <span className='header__user-name user__name'>{email}</span> :
                       <span className='header__login'>Sign in</span>
                   }
                 </Link>
               </li>
               {
-                isAuth(authorizationStatus) && (
+                checkAuthorizatrion(authorizationStatus) && (
                   <li className="header__nav-item">
                     <Link
                       className="header__nav-link"

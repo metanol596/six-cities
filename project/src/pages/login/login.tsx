@@ -55,7 +55,7 @@ function Login():JSX.Element {
     },
   });
 
-  const isValidField = (value: string, symbols: RegExp) => value !== '' && (value.match(symbols));
+  const checkFieldForValidity = (value: string, symbols: RegExp) => value !== '' && (value.match(symbols));
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -72,13 +72,13 @@ function Login():JSX.Element {
     const {name, value} = target;
 
     const rule = formState[name].regex;
-    const isValid = isValidField(value, rule);
+    const validateField = checkFieldForValidity(value, rule);
 
     setFormState({
       ...formState,
       [name]: {
         ...formState[name],
-        error: !isValid,
+        error: !validateField,
         value,
       },
     });

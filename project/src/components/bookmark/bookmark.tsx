@@ -10,7 +10,7 @@ import {  toggleFavoriteStatusAction } from '../../store/api-actions';
 
 import { selectAuthorizationStatus } from '../../store/user-process/user-process';
 
-import { isAuth } from '../../utils';
+import { checkAuthorizatrion } from '../../utils';
 
 type PropsType = {
   id: number;
@@ -37,7 +37,7 @@ function Bookmark({id, isFavorite, className}: PropsType): JSX.Element {
       className={`${className}__bookmark-button button ${isFavoriteState && `${className}__bookmark-button--active`}`}
       type="button"
       onClick={() => {
-        if (!isAuth(authorizationStatus)) {
+        if (!checkAuthorizatrion(authorizationStatus)) {
           navigate(AppRoute.Login);
         }
 
