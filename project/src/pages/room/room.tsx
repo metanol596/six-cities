@@ -18,10 +18,10 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { selectNearbyOffers, selectOffer } from '../../store/offers-process/offers-process';
-import { selectComments } from '../../store/offer-data/offer-data';
+import { selectNearbyOffers, selectOffer } from '../../store/offers-process/selectors';
+import { selectComments } from '../../store/offer-data/selectors';
 
-import { selectAuthorizationStatus } from '../../store/user-process/user-process';
+import { selectAuthorizationStatus } from '../../store/user-process/selectors';
 
 import {
   fetchCommentsAction,

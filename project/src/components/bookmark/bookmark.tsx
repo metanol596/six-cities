@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import {  toggleFavoriteStatusAction } from '../../store/api-actions';
 
-import { selectAuthorizationStatus } from '../../store/user-process/user-process';
+import { selectAuthorizationStatus } from '../../store/user-process/selectors';
 
 import { checkAuthorizatrion } from '../../utils';
 

@@ -2,8 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { CITIES, NameSpace } from '../../const';
 
-import { State } from '../../types/state';
-
 type OffersData = {
   city: string;
 }
@@ -23,7 +21,3 @@ export const offersData = createSlice({
 });
 
 export const {cityChange} = offersData.actions;
-
-const selectOffersDataState = (state: State) => state[NameSpace.offersData];
-
-export const selectCity = (state: State) => selectOffersDataState(state).city;

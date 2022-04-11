@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks';
 
-import { selectAuthorizationStatus } from '../../store/user-process/user-process';
+import { selectAuthorizationStatus } from '../../store/user-process/selectors';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 

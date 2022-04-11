@@ -1,29 +1,52 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { NameSpace, SortList } from '../../const';
+import { api } from '../index';
 
-import { State } from '../../types/state';
+//import { fetchOffersAction } from '../api-actions';
+
+import { handleError } from '../../services/handle-error';
+
+import { APIRoute, FetchStatus, NameSpace, SortList } from '../../const';
+
 import { Offer } from '../../types/offer';
 
 type OffersProcess = {
+  offers: Offer[];
+  offersFetchStatus: FetchStatus;
+
   sortType: string;
   favoritesOffers: Offer[];
   isFavoritesOffersLoaded: boolean;
-  offers: Offer[];
-  isDataLoaded: boolean;
+  //isDataLoaded: boolean;
   offer: Offer | null;
   nearbyOffers: Offer[];
 }
 
 const initialState: OffersProcess = {
+  offers: [],
+  offersFetchStatus: FetchStatus.Idle,
+
   sortType: SortList.POPULAR,
   favoritesOffers: [],
   isFavoritesOffersLoaded: false,
-  offers: [],
-  isDataLoaded: false,
+  //isDataLoaded: false,
   offer: null,
   nearbyOffers: [],
 };
+
+export const fetchOffersAction = createAsyncThunk(
+  'data/fetchOffers',
+  async () => {
+    try {
+      const {data} = await api.get<Offer[]>(APIRoute.Offers);
+      //store.dispatch(loadOffers(data));
+      return data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+);
 
 export const offersProcess = createSlice({
   name: NameSpace.offersProcess,
@@ -36,10 +59,10 @@ export const offersProcess = createSlice({
       state.favoritesOffers = action.payload;
       state.isFavoritesOffersLoaded = true;
     },
-    loadOffers: (state, action) => {
-      state.offers = action.payload;
-      state.isDataLoaded = true;
-    },
+    //loadOffers: (state, action) => {
+    //  state.offers = action.payload;
+    //  state.isDataLoaded = true;
+    //},
     loadOffer: (state, action) => {
       state.offer = action.payload;
     },
@@ -56,6 +79,19 @@ export const offersProcess = createSlice({
       state.favoritesOffers = state.favoritesOffers.filter(({id}) => id !== action.payload.id);
     },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchOffersAction.pending, (state) => {
+        state.offersFetchStatus = FetchStatus.Pending;
+      })
+      .addCase(fetchOffersAction.fulfilled, (state, action) => {
+        state.offersFetchStatus = FetchStatus.Success;
+        state.offers = action.payload;
+      })
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.offersFetchStatus = FetchStatus.Failed;
+      });
+  },
 });
 
 export const {
@@ -63,16 +99,6 @@ export const {
   loadOffer,
   loadNearbyOffers,
   loadFavoritesOffers,
-  loadOffers,
+  //loadOffers,
   updateFavorites,
 } = offersProcess.actions;
-
-const selectOffersProcessState = (state: State) => state[NameSpace.offersProcess];
-
-export const selectSortType = (state: State) => selectOffersProcessState(state).sortType;
-export const selectFavoritesOffers = (state: State) => selectOffersProcessState(state).favoritesOffers;
-export const selectFavoritesOffersStatus = (state: State) => selectOffersProcessState(state).isFavoritesOffersLoaded;
-export const selectOffers = (state: State) => selectOffersProcessState(state).offers;
-export const selectOffersStatus = (state: State) => selectOffersProcessState(state).isDataLoaded;
-export const selectOffer = (state: State) => selectOffersProcessState(state).offer;
-export const selectNearbyOffers = (state: State) => selectOffersProcessState(state).nearbyOffers;

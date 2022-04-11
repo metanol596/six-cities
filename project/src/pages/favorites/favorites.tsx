@@ -7,7 +7,7 @@ import Spinner from '../../components/spinner/spinner';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { selectFavoritesOffers, selectFavoritesOffersStatus } from '../../store/offers-process/offers-process';
+import { selectFavoritesOffers, selectFavoritesOffersStatus } from '../../store/offers-process/selectors';
 
 import { fetchFavoritesOffers } from '../../store/api-actions';
 

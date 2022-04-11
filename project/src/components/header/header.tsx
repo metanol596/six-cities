@@ -4,9 +4,8 @@ import { AppRoute } from '../../const';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { selectAuthorizationStatus } from '../../store/user-process/user-process';
-
-import { logoutAction } from '../../store/api-actions';
+import { selectAuthorizationStatus } from '../../store/user-process/selectors';
+import { logoutAction } from '../../store/user-process/user-process';
 
 import { getUser } from '../../services/user';
 

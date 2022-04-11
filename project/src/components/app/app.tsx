@@ -10,7 +10,6 @@ import PrivateRoute from '../../hocs/private-route/private-route';
 
 import { AppRoute } from '../../const';
 
-
 import HistoryRoute from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 

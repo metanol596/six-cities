@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import App from './components/app/app';
 
 import { store } from './store';
-import { fetchOffersAction } from './store/api-actions';
+import { fetchOffersAction } from './store/offers-process/offers-process';
 import { checkAuthAction } from './store/api-actions';
 
 import 'react-toastify/dist/ReactToastify.css';

@@ -6,10 +6,12 @@ import Spinner from '../../components/spinner/spinner';
 
 import { useAppSelector } from '../../hooks';
 
-import { selectOffers, selectOffersStatus } from '../../store/offers-process/offers-process';
-import { selectAuthorizationStatus } from '../../store/user-process/user-process';
+import { selectOffers, selectOffersStatus } from '../../store/offers-process/selectors';
+import { selectAuthorizationStatus } from '../../store/user-process/selectors';
 
 import { isCheckedAuth } from '../../utils';
+
+import { FetchStatus } from '../../const';
 
 function Main(): JSX.Element {
   const offers = useAppSelector(selectOffers);
@@ -18,7 +20,7 @@ function Main(): JSX.Element {
 
   const isOffers = offers.length === 0;
 
-  if (!isDataLoaded || isCheckedAuth(authorizationStatus)) {
+  if (isDataLoaded === FetchStatus.Pending || isCheckedAuth(authorizationStatus)) {
     return <Spinner />;
   }
 

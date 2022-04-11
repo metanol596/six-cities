@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../hooks';
 
-import { selectCity } from '../../store/offers-data/offers-data';
+import { selectCity } from '../../store/offers-data/selectors';
 
 import styles from './main.module.css';
 

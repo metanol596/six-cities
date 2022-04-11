@@ -6,7 +6,7 @@ import OffersList from '../../components/offers-list/offers-list';
 
 import { useAppSelector } from '../../hooks';
 
-import { selectCity } from '../../store/offers-data/offers-data';
+import { selectCity } from '../../store/offers-data/selectors';
 
 import { Offer } from '../../types/offer';
 

@@ -5,7 +5,7 @@ import { SortList } from '../../const';
 
 import { useAppSelector } from '../../hooks';
 
-import { selectSortType } from '../../store/offers-process/offers-process';
+import { selectSortType } from '../../store/offers-process/selectors';
 
 import { Offer } from '../../types/offer';
 

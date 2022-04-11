@@ -4,7 +4,9 @@ import { CITIES } from '../../const';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { cityChange, selectCity } from '../../store/offers-data/offers-data';
+import { cityChange } from '../../store/offers-data/offers-data';
+
+import { selectCity } from '../../store/offers-data/selectors';
 
 function Locations(): JSX.Element {
   const currentCity = useAppSelector(selectCity);
