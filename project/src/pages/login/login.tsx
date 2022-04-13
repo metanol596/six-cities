@@ -4,14 +4,15 @@ import cn from 'classnames';
 
 import Header from '../../components/header/header';
 
-import { CITIES } from '../../const';
+import { CITIES, FetchStatus } from '../../const';
 
 import { getRandomArrayElement } from '../../utils';
 
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { cityChange } from '../../store/offers-data/offers-data';
 import { loginAction } from '../../store/user-process/user-process';
+import { selectLoginStatus } from '../../store/user-process/selectors';
 
 import styles from './login.module.css';
 
@@ -38,6 +39,7 @@ const PASSWORD_VALID_SYMBOLS = /([a-z]+[0-9])|([0-9]+[a-z])/gi;
 
 function Login():JSX.Element {
   const dispatch = useAppDispatch();
+  const isLoginPending = useAppSelector(selectLoginStatus);
 
   const [formState, setFormState] = useState<FormStateProps>({
     email: {
@@ -135,7 +137,7 @@ function Login():JSX.Element {
               <button
                 className="login__submit form__submit button"
                 type="submit"
-                disabled={isError || isValue}
+                disabled={isError || isValue || isLoginPending === FetchStatus.Pending}
               >
                 Sign in
               </button>

@@ -9,6 +9,23 @@ import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
 import OffersList from '../../components/offers-list/offers-list';
 import Spinner from '../../components/spinner/spinner';
+import NotFound from '../not-found/not-found';
+
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
+import { fetchOfferAction, fetchNearbyOffersAction } from '../../store/offers-process/offers-process';
+import {
+  selectNearbyOffers,
+  selectNearbyOffersStatus,
+  selectOffer,
+  selectOfferStatus
+} from '../../store/offers-process/selectors';
+import { selectComments } from '../../store/offer-data/selectors';
+import { selectAuthorizationStatus } from '../../store/user-process/selectors';
+
+import {
+  fetchCommentsAction
+} from '../../store/api-actions';
 
 import {
   getRatePercent,
@@ -16,26 +33,20 @@ import {
   toUpperCaseFirstChar
 } from '../../utils';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
-
-import { selectNearbyOffers, selectOffer } from '../../store/offers-process/selectors';
-import { selectComments } from '../../store/offer-data/selectors';
-
-import { selectAuthorizationStatus } from '../../store/user-process/selectors';
-
-import {
-  fetchCommentsAction,
-  fetchNearbyOffersAction,
-  fetchOfferAction
-} from '../../store/api-actions';
+import { FetchStatus } from '../../const';
 
 function Room():JSX.Element | null {
   const {id} = useParams();
   const offerId = Number(id);
 
   const dispatch = useAppDispatch();
+
   const offer = useAppSelector(selectOffer);
+  const offerStatus = useAppSelector(selectOfferStatus);
+
   const nearbyOffers = useAppSelector(selectNearbyOffers);
+  const nearbyOffersStatus = useAppSelector(selectNearbyOffersStatus);
+
   const comments = useAppSelector(selectComments);
 
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
@@ -46,8 +57,12 @@ function Room():JSX.Element | null {
     dispatch(fetchCommentsAction(offerId));
   }, [dispatch, offerId]);
 
-  if (!offer) {
+  if (offerStatus === FetchStatus.Pending) {
     return <Spinner />;
+  }
+
+  if (offerStatus === FetchStatus.Failed) {
+    return <NotFound />;
   }
 
   if (!offer || !nearbyOffers || !comments) {
@@ -175,6 +190,7 @@ function Room():JSX.Element | null {
           />
         </section>
         <div className="container">
+          {nearbyOffersStatus === FetchStatus.Failed && (<p>Something went wrong. Please, reload the page</p>)}
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <OffersList

@@ -6,7 +6,7 @@ import { SortList } from '../../const';
 
 import { useAppSelector } from '../../hooks';
 
-import { selectSortType } from '../../store/offers-process/selectors';
+import { selectSortType } from '../../store/offers-data/selectors';
 
 function Sorts(): JSX.Element {
   const [visible, setVisible] = useState(false);

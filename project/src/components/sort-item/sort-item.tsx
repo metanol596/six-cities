@@ -1,8 +1,8 @@
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { sortChange } from '../../store/offers-process/offers-process';
+import { sortChange } from '../../store/offers-data/offers-data';
 
-import { selectSortType } from '../../store/offers-process/selectors';
+import { selectSortType } from '../../store/offers-data/selectors';
 
 type PropsType = {
   sortType: string;

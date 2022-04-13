@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { CITIES, NameSpace } from '../../const';
+import { CITIES, NameSpace, SortList } from '../../const';
 
 type OffersData = {
   city: string;
+  sortType: string;
 }
 
 const initialState: OffersData = {
   city: CITIES[0],
+  sortType: SortList.POPULAR,
 };
 
 export const offersData = createSlice({
@@ -17,7 +19,10 @@ export const offersData = createSlice({
     cityChange: (state, action) => {
       state.city = action.payload;
     },
+    sortChange: (state, action) => {
+      state.sortType = action.payload;
+    },
   },
 });
 
-export const {cityChange} = offersData.actions;
+export const {cityChange, sortChange} = offersData.actions;

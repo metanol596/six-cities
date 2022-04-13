@@ -1,11 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-//import { store } from '../index';
-
-//import { fetchOffersAction } from '../offers-process/offers-process';
-
-import { dropToken } from './../../services/token';
-import { deleteUser } from './../../services/user';
+import { dropToken } from '../../services/token';
+import { deleteUser } from '../../services/user';
 import { saveToken } from '../../services/token';
 import { setUser } from '../../services/user';
 import { handleError } from '../../services/handle-error';
@@ -69,11 +65,9 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     try {
       await api.delete(APIRoute.Logout);
-      //store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
       dispatch(fetchOffersAction());
     } catch (error) {
       handleError(error);
-      //store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
     }
   },
 );
@@ -85,12 +79,6 @@ export const userProcess = createSlice({
     requireAuthorization: (state, action) => {
       state.authorizationStatus = action.payload;
     },
-    //login: (state, action) => {
-    //  state.user = action.payload;
-    //},
-    //logout: (state) => {
-    //  state.user = {};
-    //},
   },
   extraReducers(builder) {
     builder
