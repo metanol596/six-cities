@@ -31,7 +31,7 @@ import {
   getRatePercent,
   checkAuthorizatrion,
   toUpperCaseFirstChar
-} from '../../utils';
+} from '../../common';
 
 import { FetchStatus } from '../../const';
 

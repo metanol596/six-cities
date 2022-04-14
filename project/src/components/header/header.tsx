@@ -9,7 +9,7 @@ import { logoutAction } from '../../store/user-process/user-process';
 
 import { getUser } from '../../services/user';
 
-import { checkAuthorizatrion } from '../../utils';
+import { checkAuthorizatrion } from '../../common';
 
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);

@@ -1,4 +1,4 @@
-import { getRatePercent } from '../../utils';
+import { getRatePercent } from '../../common';
 
 import { Comment } from '../../types/comment';
 

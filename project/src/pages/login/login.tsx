@@ -6,7 +6,7 @@ import Header from '../../components/header/header';
 
 import { CITIES, FetchStatus } from '../../const';
 
-import { getRandomArrayElement } from '../../utils';
+import { getRandomArrayElement } from '../../common';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 

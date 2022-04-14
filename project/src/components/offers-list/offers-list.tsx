@@ -9,7 +9,7 @@ import { selectSortType } from '../../store/offers-data/selectors';
 
 import { Offer } from '../../types/offer';
 
-import { sortOffers } from '../../utils';
+import { sortOffers } from '../../common';
 
 type PropsType = {
   offers: Offer[];

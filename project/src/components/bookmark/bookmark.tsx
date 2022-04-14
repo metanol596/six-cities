@@ -10,7 +10,7 @@ import {  toggleFavoriteStatusAction } from '../../store/api-actions';
 
 import { selectAuthorizationStatus } from '../../store/user-process/selectors';
 
-import { checkAuthorizatrion } from '../../utils';
+import { checkAuthorizatrion } from '../../common';
 
 type PropsType = {
   id: number;

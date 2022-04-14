@@ -6,7 +6,7 @@ import Badge from '../badge/badge';
 
 import { AppRoute } from '../../const';
 
-import { getRatePercent, toUpperCaseFirstChar } from '../../utils';
+import { getRatePercent, toUpperCaseFirstChar } from '../../common';
 
 import { Offer } from '../../types/offer';
 

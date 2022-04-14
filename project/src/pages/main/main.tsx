@@ -9,7 +9,7 @@ import { useAppSelector } from '../../hooks';
 import { selectOffers, selectOffersStatus } from '../../store/offers-process/selectors';
 import { selectAuthorizationStatus } from '../../store/user-process/selectors';
 
-import { isCheckedAuth } from '../../utils';
+import { isCheckedAuth } from '../../common';
 
 import { FetchStatus } from '../../const';
 
