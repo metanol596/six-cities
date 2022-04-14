@@ -1,5 +1,4 @@
-import { offerData } from './offer-data';
-import { loadComments } from './offer-data';
+import { offerData, loadComments } from './offer-data';
 import { makeFakeComment } from '../../utils/mocks';
 
 const fakeComments = new Array(4).fill(null).map(makeFakeComment);
