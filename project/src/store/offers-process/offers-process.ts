@@ -18,7 +18,8 @@ type OffersProcess = {
   nearbyOffersFetchStatus: FetchStatus;
 
   favoritesOffers: Offer[];
-  isFavoritesOffersLoaded: boolean;
+  favoritesOffersFetchStatus: FetchStatus;
+
   offer: Offer | null;
   nearbyOffers: Offer[];
 }
@@ -31,7 +32,8 @@ const initialState: OffersProcess = {
   nearbyOffersFetchStatus: FetchStatus.Idle,
 
   favoritesOffers: [],
-  isFavoritesOffersLoaded: false,
+  favoritesOffersFetchStatus: FetchStatus.Idle,
+
   offer: null,
   nearbyOffers: [],
 };
@@ -88,14 +90,27 @@ export const fetchNearbyOffersAction = createAsyncThunk<Offer[], number, {
   },
 );
 
+export const fetchFavoritesOffers = createAsyncThunk<Offer[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchFavoritesOffers',
+  async (_arg, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get<Offer[]>(APIRoute.Favorite);
+      return data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+);
+
 export const offersProcess = createSlice({
   name: NameSpace.offersProcess,
   initialState,
   reducers: {
-    loadFavoritesOffers: (state, action) => {
-      state.favoritesOffers = action.payload;
-      state.isFavoritesOffersLoaded = true;
-    },
     updateFavorites: (state, action) => {
       const offerIndex = state.offers.findIndex(({id}) => id === action.payload.id);
       const nearbyOfferIndex = state.nearbyOffers.findIndex(({id}) => id === action.payload.id);
@@ -137,11 +152,18 @@ export const offersProcess = createSlice({
       })
       .addCase(fetchNearbyOffersAction.rejected, (state) => {
         state.nearbyOffersFetchStatus = FetchStatus.Failed;
+      })
+      .addCase(fetchFavoritesOffers.pending, (state) => {
+        state.favoritesOffersFetchStatus = FetchStatus.Pending;
+      })
+      .addCase(fetchFavoritesOffers.fulfilled, (state, action) => {
+        state.favoritesOffersFetchStatus = FetchStatus.Success;
+        state.favoritesOffers = action.payload;
+      })
+      .addCase(fetchFavoritesOffers.rejected, (state) => {
+        state.favoritesOffersFetchStatus = FetchStatus.Failed;
       });
   },
 });
 
-export const {
-  loadFavoritesOffers,
-  updateFavorites,
-} = offersProcess.actions;
+export const {updateFavorites} = offersProcess.actions;

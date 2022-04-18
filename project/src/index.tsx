@@ -7,7 +7,7 @@ import App from './components/app/app';
 
 import { store } from './store';
 import { fetchOffersAction } from './store/offers-process/offers-process';
-import { checkAuthAction } from './store/api-actions';
+import { checkAuthAction } from './store/user-process/user-process';
 
 import 'react-toastify/dist/ReactToastify.css';
 

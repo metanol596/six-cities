@@ -23,9 +23,7 @@ import {
 import { selectComments } from '../../store/offer-data/selectors';
 import { selectAuthorizationStatus } from '../../store/user-process/selectors';
 
-import {
-  fetchCommentsAction
-} from '../../store/api-actions';
+import { fetchCommentsAction } from '../../store/api-actions';
 
 import {
   getRatePercent,

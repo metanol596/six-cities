@@ -72,6 +72,23 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   },
 );
 
+export const checkAuthAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance,
+}>(
+  'user/checkAuth',
+  async (_arg, {dispatch, extra: api}) => {
+    try {
+      await api.get(APIRoute.Login);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    } catch(error) {
+      handleError(error);
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    }
+  },
+);
+
 export const userProcess = createSlice({
   name: NameSpace.user,
   initialState,

@@ -8,8 +8,9 @@ import Spinner from '../../components/spinner/spinner';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { selectFavoritesOffers, selectFavoritesOffersStatus } from '../../store/offers-process/selectors';
+import { fetchFavoritesOffers } from '../../store/offers-process/offers-process';
 
-import { fetchFavoritesOffers } from '../../store/api-actions';
+import { FetchStatus } from '../../const';
 
 function Favorites():JSX.Element {
   const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ function Favorites():JSX.Element {
     dispatch(fetchFavoritesOffers());
   }, [dispatch]);
 
-  if (!isFavoritesOffersLoaded) {
+  if (isFavoritesOffersLoaded === FetchStatus.Pending) {
     return <Spinner />;
   }
 

@@ -5,7 +5,7 @@ import { NameSpace } from '../../const';
 const selectOffersProcessState = (state: State) => state[NameSpace.offersProcess];
 
 export const selectFavoritesOffers = (state: State) => selectOffersProcessState(state).favoritesOffers;
-export const selectFavoritesOffersStatus = (state: State) => selectOffersProcessState(state).isFavoritesOffersLoaded;
+export const selectFavoritesOffersStatus = (state: State) => selectOffersProcessState(state).favoritesOffersFetchStatus;
 
 export const selectOffers = (state: State) => selectOffersProcessState(state).offers;
 export const selectOffersStatus = (state: State) => selectOffersProcessState(state).offersFetchStatus;
