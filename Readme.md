@@ -1,9 +1,26 @@
-# Личный проект «Шесть городов»
+# Проект «Шесть городов»
 
-install - `npm install`
+## Описание
 
-start - `npm run start`
+Небольшое приложение по поиску предложений по аренде в шести городах для отдыха
 
-build - `npm run build`
+---
 
-test - `npm run test`
+Опубликованная версия – https://614955-six-cities-9.vercel.app/
+
+---
+
+## Используемые технологии:
+
+- React (Hooks)
+- Redux Toolkit, Redux Thunk
+- Axios
+
+---
+
+## Как запустить:
+
+1. Клонировать
+2. Перейти в папку `/project`
+3. Установить зависимости: install - `npm install`
+4. Запустить проект: start - `npm run start`
