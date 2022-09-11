@@ -12,12 +12,16 @@
 
 ## Использованные технологии:
 
-- React (Hooks)
+- React (Hooks), React Route
 - TypeScript
 - Redux Toolkit, Redux Thunk
 - Axios
 
----
+## Дополнительные библиотеки:
+
+- leaflet
+- classnames
+- react toastify
 
 ## Как запустить:
 
