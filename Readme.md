@@ -10,9 +10,10 @@
 
 ---
 
-## Используемые технологии:
+## Использованные технологии:
 
 - React (Hooks)
+- TypeScript
 - Redux Toolkit, Redux Thunk
 - Axios
 
@@ -22,5 +23,5 @@
 
 1. Клонировать
 2. Перейти в папку `/project`
-3. Установить зависимости: install - `npm install`
-4. Запустить проект: start - `npm run start`
+3. Установить зависимости: - `npm install`
+4. Запустить проект: - `npm run start`
